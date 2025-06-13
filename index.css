@@ -1,0 +1,19 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* For specific section targeting with padding for header */
+section[id], header[id], div[id] {
+  scroll-margin-top: 80px; /* Increased to ensure enough margin */
+}
+
+/* Smooth theme transition */
+html, body, * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
