@@ -63,73 +63,45 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
     // Handle clicks on terminal to focus input
     const handleTerminalClick = () => {
         focusInput();
-    };
-
-    const getTerminalBg = () => {
+    }; const getTerminalBg = () => {
         switch (currentTheme) {
             case 'matrix':
                 return 'bg-black';
             case 'amber':
-                return 'bg-gray-900';
+                return 'bg-black';
             case 'blue':
-                return 'bg-slate-900';
+                return 'bg-black';
             case 'purple':
-                return 'bg-gray-900';
+                return 'bg-black';
             default:
-                return 'bg-gray-900';
+                return 'bg-black';
         }
     };
 
-    const getBorderColor = () => {
+    const getTextColor = () => {
         switch (currentTheme) {
             case 'matrix':
-                return 'border-green-500';
+                return 'text-green-400';
             case 'amber':
-                return 'border-amber-500';
+                return 'text-amber-400';
             case 'blue':
-                return 'border-blue-500';
+                return 'text-blue-400';
             case 'purple':
-                return 'border-purple-500';
+                return 'text-purple-400';
             default:
-                return 'border-gray-600';
+                return 'text-green-400';
         }
-    };
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+    }; return (
+        <div
             className={`
-        h-full w-full rounded-lg border-2 ${getBorderColor()} 
-        ${getTerminalBg()} shadow-2xl overflow-hidden flex flex-col
-        font-mono selection:bg-green-500/20
-      `}
+                h-full w-full ${getTerminalBg()} ${getTextColor()}
+                font-mono selection:bg-current/20 overflow-hidden
+                cursor-text
+            `}
             onClick={handleTerminalClick}
         >
-            {/* Terminal Header */}
-            <div className={`
-        flex items-center justify-between p-3 
-        ${getBorderColor().replace('border-', 'bg-').replace('-500', '-900')}
-        border-b ${getBorderColor()}
-      `}>
-                <div className="flex items-center space-x-2">
-                    <div className="flex space-x-1">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <span className="text-gray-300 text-sm font-medium ml-4">
-                        Portfolio Terminal - {currentTheme} theme
-                    </span>
-                </div>
-                <div className="text-gray-400 text-xs">
-                    user@portfolio: {fileSystem.getPromptPath()}
-                </div>
-            </div>
-
-            {/* Terminal Content */}
-            <div className="flex-1 flex flex-col min-h-0">
+            {/* Full-screen Terminal Content */}
+            <div className="h-full flex flex-col p-4 overflow-hidden">
                 <Output output={output} theme={currentTheme} />
                 <CommandLine
                     currentInput={currentInput}
@@ -137,11 +109,11 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
                     onKeyDown={handleKeyDown}
                     isLoading={isLoading}
                     inputRef={inputRef}
-                    prompt={fileSystem.getPromptPath()}
+                    prompt="user@portfolio:~$"
                     theme={currentTheme}
                 />
             </div>
-        </motion.div>
+        </div>
     );
 };
 

@@ -418,7 +418,7 @@ export default function PortfolioPage() {
     });
     const [formError, setFormError] = useState('');
     const [formSuccess, setFormSuccess] = useState('');
-    const [currentPage, setCurrentPage] = useState('portfolio'); // New state for page switching
+    const [currentPage, setCurrentPage] = useState('blank'); // New state for page switching
     const activeSection = useActiveSectionObserver(); useEffect(() => {
         // Check if theme is stored in localStorage
         const savedTheme = localStorage.getItem('theme') || 'dark';

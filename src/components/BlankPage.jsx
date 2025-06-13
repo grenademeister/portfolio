@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Sun, Moon, Terminal as TerminalIcon, ArrowLeft } from "lucide-react";
+import { X } from "lucide-react";
 import Terminal from "./cli/Terminal";
 import ProjectModal from "./modals/ProjectModal";
 
@@ -22,6 +21,17 @@ function BlankPage({ theme, toggleTheme, switchPage }) {
         switchPage();
     };
 
+    // Hide scrollbars and prevent body scroll when in CLI mode
+    React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        };
+    }, []);
+
     // Listen for project open events
     React.useEffect(() => {
         const handleOpenProject = (event) => {
@@ -34,67 +44,24 @@ function BlankPage({ theme, toggleTheme, switchPage }) {
         return () => {
             window.removeEventListener('openProject', handleOpenProject);
         };
-    }, []);
-
-    return (
-        <div className="min-h-screen bg-neutral-900 text-neutral-100 font-sans antialiased">
-            {/* Navigation */}
-            <motion.nav
-                className="sticky top-0 z-40 bg-neutral-900/90 backdrop-blur-md border-b border-neutral-800"
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ delay: 0.3 }}
+    }, []); return (
+        <div className="h-screen w-screen bg-black text-green-400 font-mono antialiased overflow-hidden fixed top-0 left-0">            {/* Subtle Exit Button - Top Right Corner */}
+            <button
+                onClick={handleSkipToGUI}
+                className="fixed top-4 right-4 z-50 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-300 hover:text-white transition-all duration-300 backdrop-blur-sm border border-gray-600/50 hover:border-gray-400 shadow-lg hover:shadow-xl"
+                aria-label="Exit CLI and switch to GUI portfolio"
+                title="Exit CLI Mode"
             >
-                <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                    <div className="flex items-center space-x-3">
-                        <TerminalIcon className="w-6 h-6 text-green-400" />
-                        <span className="font-semibold tracking-tight text-green-400">
-                            CLI Portfolio
-                        </span>
-                        <span className="text-sm text-gray-500">
-                            - Type "help" for commands
-                        </span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                        <button
-                            onClick={handleSkipToGUI}
-                            className="flex items-center px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
-                            aria-label="Switch to GUI portfolio"
-                        >
-                            <ArrowLeft className="w-4 h-4 mr-1" />
-                            GUI Mode
-                        </button>
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full hover:bg-neutral-800 transition-all"
-                            aria-label="Toggle theme"
-                        >
-                            <motion.div
-                                initial={{ rotate: 0 }}
-                                animate={{ rotate: theme === 'dark' ? 0 : 180 }}
-                                transition={{ duration: 0.5, ease: "easeInOut" }}
-                            >
-                                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                            </motion.div>
-                        </button>
-                    </div>
-                </div>
-            </motion.nav>
+                <X className="w-5 h-5" />
+            </button>
 
-            {/* CLI Interface */}
-            <div className="container mx-auto px-6 py-6 h-[calc(100vh-80px)]">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="h-full"
-                >
-                    <Terminal
-                        theme={cliTheme}
-                        onThemeChange={handleThemeChange}
-                        onSkipToGUI={handleSkipToGUI}
-                    />
-                </motion.div>
+            {/* Full-screen CLI Interface - No GUI elements */}
+            <div className="h-full w-full overflow-hidden">
+                <Terminal
+                    theme={cliTheme}
+                    onThemeChange={handleThemeChange}
+                    onSkipToGUI={handleSkipToGUI}
+                />
             </div>
 
             {/* Project Modal */}
