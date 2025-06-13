@@ -1,35 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Sun, Moon, BookOpen } from "lucide-react";
+import { Sun, Moon, Terminal as TerminalIcon, ArrowLeft } from "lucide-react";
+import Terminal from "./cli/Terminal";
+import ProjectModal from "./modals/ProjectModal";
 
 /**
- * BlankPage Component
+ * BlankPage Component - CLI Portfolio Interface
  * --------------------------------------------------
- * A simple blank page with navigation and theme toggle functionality
+ * A CLI-style portfolio interface implemented in React
  */
 function BlankPage({ theme, toggleTheme, switchPage }) {
+    const [cliTheme, setCLITheme] = useState('matrix');
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+
+    const handleThemeChange = (newTheme) => {
+        setCLITheme(newTheme);
+    };
+
+    const handleSkipToGUI = () => {
+        switchPage();
+    };
+
+    // Listen for project open events
+    React.useEffect(() => {
+        const handleOpenProject = (event) => {
+            setSelectedProject(event.detail);
+            setIsProjectModalOpen(true);
+        };
+
+        window.addEventListener('openProject', handleOpenProject);
+
+        return () => {
+            window.removeEventListener('openProject', handleOpenProject);
+        };
+    }, []);
+
     return (
-        <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100 font-sans antialiased">
-            {/* Navigation for blank page */}
+        <div className="min-h-screen bg-neutral-900 text-neutral-100 font-sans antialiased">
+            {/* Navigation */}
             <motion.nav
-                className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-gray-200 dark:border-neutral-800"
+                className="sticky top-0 z-40 bg-neutral-900/90 backdrop-blur-md border-b border-neutral-800"
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.3 }}
             >
                 <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                    <p className="font-semibold tracking-tight">Blank Page</p>
-                    <div className="flex items-center">
+                    <div className="flex items-center space-x-3">
+                        <TerminalIcon className="w-6 h-6 text-green-400" />
+                        <span className="font-semibold tracking-tight text-green-400">
+                            CLI Portfolio
+                        </span>
+                        <span className="text-sm text-gray-500">
+                            - Type "help" for commands
+                        </span>
+                    </div>
+                    <div className="flex items-center space-x-3">
                         <button
-                            onClick={switchPage}
-                            className="px-3 py-1 mr-4 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
-                            aria-label="Back to portfolio"
+                            onClick={handleSkipToGUI}
+                            className="flex items-center px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
+                            aria-label="Switch to GUI portfolio"
                         >
-                            Back to Portfolio
+                            <ArrowLeft className="w-4 h-4 mr-1" />
+                            GUI Mode
                         </button>
                         <button
                             onClick={toggleTheme}
-                            className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all"
+                            className="p-2 rounded-full hover:bg-neutral-800 transition-all"
                             aria-label="Toggle theme"
                         >
                             <motion.div
@@ -44,25 +81,31 @@ function BlankPage({ theme, toggleTheme, switchPage }) {
                 </div>
             </motion.nav>
 
-            {/* Blank page content */}
-            <div className="container mx-auto px-6 py-24 flex flex-col items-center justify-center min-h-[80vh]">
+            {/* CLI Interface */}
+            <div className="container mx-auto px-6 py-6 h-[calc(100vh-80px)]">
                 <motion.div
-                    className="text-center"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="h-full"
                 >
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                        Blank Page
-                    </h1>
-                    <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8">
-                        This is a blank page. You can add any content here.
-                    </p>
-                    <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
-                        <BookOpen className="w-12 h-12 text-white" />
-                    </div>
+                    <Terminal
+                        theme={cliTheme}
+                        onThemeChange={handleThemeChange}
+                        onSkipToGUI={handleSkipToGUI}
+                    />
                 </motion.div>
             </div>
+
+            {/* Project Modal */}
+            <ProjectModal
+                projectId={selectedProject}
+                isOpen={isProjectModalOpen}
+                onClose={() => {
+                    setIsProjectModalOpen(false);
+                    setSelectedProject(null);
+                }}
+            />
         </div>
     );
 }
