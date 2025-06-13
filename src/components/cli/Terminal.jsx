@@ -58,12 +58,24 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
         }, 100);
 
         return () => clearTimeout(timer);
-    }, [output.length, focusInput]);
-
-    // Handle clicks on terminal to focus input
-    const handleTerminalClick = () => {
+    }, [output.length, focusInput]);    // Handle clicks on terminal to focus input
+    const handleTerminalClick = (e) => {
+        // Prevent focusing if user is selecting text
+        if (window.getSelection().toString()) return;
+        
+        // Focus input on any click
         focusInput();
-    }; const getTerminalBg = () => {
+        
+        // On mobile, ensure the input is scrolled into view
+        if (window.innerWidth < 768) {
+            setTimeout(() => {
+                inputRef.current?.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+    };const getTerminalBg = () => {
         switch (currentTheme) {
             case 'matrix':
                 return 'bg-black';
@@ -91,7 +103,7 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
             default:
                 return 'text-green-400';
         }
-    }; return (
+    };    return (
         <div
             className={`
                 h-full w-full ${getTerminalBg()} ${getTextColor()}
@@ -101,7 +113,7 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
             onClick={handleTerminalClick}
         >
             {/* Full-screen Terminal Content */}
-            <div className="h-full flex flex-col p-4 overflow-hidden">
+            <div className="h-full flex flex-col p-2 sm:p-4 overflow-hidden">
                 <Output output={output} theme={currentTheme} />
                 <CommandLine
                     currentInput={currentInput}

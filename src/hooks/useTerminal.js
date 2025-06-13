@@ -19,7 +19,22 @@ export const useTerminal = () => {
 
     const fileSystemHook = useFileSystem();    // Welcome message with ASCII art
     useEffect(() => {
-        const welcomeMessage = `
+        const isMobile = window.innerWidth < 768;
+        
+        const welcomeMessage = isMobile ? `
+╔═══════════════════════════════╗
+║        HYEOKGI KIM            ║
+║   ECE Student & AI Engineer   ║
+║                               ║
+║  🎓 Seoul National University ║
+║  🤖 RL • DL • Hardware AI     ║
+╚═══════════════════════════════╝
+
+Welcome to CLI Portfolio!
+Type "help" for commands.
+Try "ascii" or "neofetch".
+Type "exit" for GUI version.
+` : `
  ██   ██ ██    ██ ███████  ██████  ██   ██  ██████  ██ 
  ██   ██  ██  ██  ██      ██    ██ ██  ██  ██       ██ 
  ███████   ████   █████   ██    ██ █████   ██   ███ ██ 

@@ -54,15 +54,14 @@ const CommandLine = ({
                     cursor: 'bg-gray-400'
                 };
         }
-    }; const colors = getThemeColors();
+    };    const colors = getThemeColors();
 
     return (
-        <div className="flex items-center p-4 border-t border-gray-700 font-mono text-sm">
-            <span className={`${colors.prompt} mr-2 select-none`}>
+        <div className="flex items-center p-2 sm:p-4 border-t border-gray-700 font-mono text-xs sm:text-sm">
+            <span className={`${colors.prompt} mr-1 sm:mr-2 select-none flex-shrink-0`}>
                 {prompt} $
             </span>
-            <div className="flex-1 relative">
-                <input
+            <div className="flex-1 relative min-w-0">                <input
                     ref={inputRef}
                     type="text"
                     value={currentInput}
@@ -73,11 +72,15 @@ const CommandLine = ({
             w-full bg-transparent border-none outline-none 
             ${colors.input} placeholder-gray-500
             ${isLoading ? 'opacity-50' : ''}
+            text-xs sm:text-sm
           `}
                     placeholder={isLoading ? 'Processing...' : 'Type a command...'}
                     autoComplete="off"
                     spellCheck="false"
-                />        {/* Blinking cursor */}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    inputMode="text"
+                />{/* Blinking cursor */}
                 <motion.div
                     className={`
             absolute top-0 w-2 h-5 ${colors.cursor}

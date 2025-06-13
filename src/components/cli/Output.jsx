@@ -70,15 +70,15 @@ const Output = ({ output, theme }) => {
                 {line || '\u00A0'}
             </div>
         ));
-    }; return (
-        <div className="flex-1 overflow-y-auto p-4 space-y-2 font-mono text-sm terminal-scroll">
+    };    return (
+        <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 font-mono text-xs sm:text-sm terminal-scroll">
             {output.map((item, index) => (
                 <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`${colors[item.type]} whitespace-pre-wrap`}
+                    className={`${colors[item.type]} whitespace-pre-wrap break-words`}
                 >
                     {item.type === 'clear' ? null : formatContent(item.content, item.type)}
                 </motion.div>

@@ -240,10 +240,27 @@ Feel free to reach out for opportunities or collaborations!`,
                 window.dispatchEvent(new CustomEvent('skipToGUI'));
             }, 1000);
         }
-    }),
+    }),    ascii: () => {
+        // Detect if mobile/small screen
+        const isMobile = window.innerWidth < 768;
+        
+        if (isMobile) {
+            return {
+                output: `
+╔═══════════════════════════════╗
+║        HYEOKGI KIM            ║
+║   ECE Student & AI Engineer   ║
+║                               ║
+║  🎓 Seoul National University ║
+║  🤖 RL • DL • Hardware AI     ║
+╚═══════════════════════════════╝
 
-    ascii: () => ({
-        output: `
+Welcome to my portfolio!`,
+                type: 'output'
+            };
+        } else {
+            return {
+                output: `
  ██   ██ ██    ██ ███████  ██████  ██   ██  ██████  ██ 
  ██   ██  ██  ██  ██      ██    ██ ██  ██  ██       ██ 
  ███████   ████   █████   ██    ██ █████   ██   ███ ██ 
@@ -259,8 +276,10 @@ Feel free to reach out for opportunities or collaborations!`,
     🎓 ECE Undergraduate & AI Engineer 🤖
     Seoul National University
     Reinforcement Learning • Deep Learning • Hardware AI`,
-        type: 'output'
-    }), neofetch: () => {
+                type: 'output'
+            };
+        }
+    },neofetch: () => {
         const profile = portfolioData.profile;
 
         // Calculate uptime since birth (2005/9/5, 10:27:00 PM)
