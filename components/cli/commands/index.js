@@ -21,6 +21,10 @@ Portfolio:
   about                Show about information
   contact              Show contact information
   
+Fun Stuff:
+  ascii                Show ASCII art banner
+  neofetch             Display system information
+  
 Terminal:
   clear                Clear terminal
   history              Show command history
@@ -34,7 +38,9 @@ Examples:
   cd projects          Navigate to projects directory
   ls                   List current directory
   cat about.txt        Read about file
-  open tetris-dqn      Open project details
+  open rainbow-dqn-tetris  Open project details
+  ascii                Show cool ASCII art
+  neofetch             System info display
   theme matrix         Change to matrix theme`,
         type: 'output'
     }),
@@ -234,7 +240,66 @@ Feel free to reach out for opportunities or collaborations!`,
                 window.dispatchEvent(new CustomEvent('skipToGUI'));
             }, 1000);
         }
-    })
+    }),
+
+    ascii: () => ({
+        output: `
+ ██   ██ ██    ██ ███████  ██████  ██   ██  ██████  ██ 
+ ██   ██  ██  ██  ██      ██    ██ ██  ██  ██       ██ 
+ ███████   ████   █████   ██    ██ █████   ██   ███ ██ 
+ ██   ██    ██    ██      ██    ██ ██  ██  ██    ██ ██ 
+ ██   ██    ██    ███████  ██████  ██   ██  ██████  ██ 
+                                                       
+          ██   ██ ██ ███    ███                        
+          ██  ██  ██ ████  ████                        
+          █████   ██ ██ ████ ██                        
+          ██  ██  ██ ██  ██  ██                        
+          ██   ██ ██ ██      ██                        
+
+    🎓 ECE Undergraduate & AI Engineer 🤖
+    Seoul National University
+    Reinforcement Learning • Deep Learning • Hardware AI`,
+        type: 'output'
+    }), neofetch: () => {
+        const profile = portfolioData.profile;
+
+        // Calculate uptime since birth (2005/9/5, 10:27:00 PM)
+        const birthDate = new Date(2005, 8, 5, 22, 27, 0); // Month is 0-indexed, so 8 = September
+        const now = new Date();
+        const uptimeMs = now - birthDate;
+
+        // Convert to human-readable format
+        const years = Math.floor(uptimeMs / (1000 * 60 * 60 * 24 * 365.25));
+        const days = Math.floor((uptimeMs % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((uptimeMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((uptimeMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        const uptimeString = `${years} years, ${days} days, ${hours} hours, ${minutes} mins`;
+
+        return {
+            output: `                   -\`                 ${profile.name}@portfolio
+                  .o+\`                 ----------------
+                 \`ooo/                 OS: btwOS
+                \`+oooo:                Model: Homo sapiens [patched]
+               \`+oooooo:               Kernel: coffee-patched
+               -+oooooo+:              Uptime: ${uptimeString}
+             \`/:-:++oooo+:             Packages: too many to track
+            \`/++++/+++++++:            Shell: portfolio-sh
+           \`/++++++++++++++:           DE: CLI
+          \`/+++ooooooooo/+++/          
+         ./ooosssso++osssssso+\`        Theme: Matrix [CLI]
+        .oossssso-\`\`\`\`/ossssss+\`       Icons: Lucide React
+       -osssssso.      :ssssssso.      Used: React, Tailwind CSS
+      :osssssss/        osssso+++.     Contact: ${profile.contact.email}
+     /ossssssss/        +ssssooo/-     
+   \`/ossssso+/:-        -:/+osssso+-   
+  \`+sso+:-\`                 \`.-/+oso:  
+ \`++:.                           \`-/+/ 
+ .\`                                 \`/
+`,
+            type: 'output'
+        };
+    }
 };
 
 export const executeCommand = async (input, fileSystem, terminalHistory) => {

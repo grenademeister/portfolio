@@ -1,95 +1,155 @@
 export const portfolioData = {
-    projects: {
-        'tetris-dqn': {
-            title: 'Tetris DQN - AI Tetris Player',
-            description: 'An AI-powered Tetris game using Deep Q-Network (DQN) reinforcement learning.',
-            technologies: ['Python', 'TensorFlow', 'OpenAI Gym', 'NumPy'],
-            category: 'AI/ML',
-            status: 'Completed',
-            demoUrl: 'https://example.com/tetris-dqn',
-            githubUrl: 'https://github.com/developer/tetris-dqn',
-            features: [
-                'Self-learning Tetris AI',
-                'Real-time gameplay visualization',
-                'Performance metrics tracking',
-                'Neural network architecture optimization'
-            ],
-            performance: 'Average score of 15,000+ points after 1000 training episodes',
-            images: [
-                '/images/tetris-gameplay.png',
-                '/images/tetris-training.png',
-                '/images/tetris-metrics.png'
-            ]
-        },
-        'portfolio-website': {
-            title: 'CLI Portfolio Website',
-            description: 'A modern, responsive portfolio website with terminal-style interface.',
-            technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
-            category: 'Frontend',
-            status: 'In Progress',
-            demoUrl: 'https://developer-portfolio.com',
-            githubUrl: 'https://github.com/developer/portfolio',
-            features: [
-                'Terminal-style navigation',
-                'Interactive command system',
-                'Project showcase',
-                'Theme customization',
-                'Mobile responsive'
-            ],
-            commands: [
-                'ls - List directory contents',
-                'cd <dir> - Change directory',
-                'cat <file> - Display file contents',
-                'open <project> - Open project details',
-                'help - Show available commands'
-            ]
-        },
-        'e-commerce-app': {
-            title: 'Full-Stack E-Commerce Platform',
-            description: 'A comprehensive e-commerce application with modern UI and robust backend.',
-            technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'JWT'],
-            category: 'Full-Stack',
-            status: 'Completed',
-            demoUrl: 'https://example.com/ecommerce',
-            githubUrl: 'https://github.com/developer/ecommerce',
-            features: [
-                'User authentication',
-                'Product catalog',
-                'Shopping cart',
-                'Payment integration',
-                'Order management',
-                'Admin dashboard'
-            ],
-            architecture: {
-                frontend: 'React, Redux, Tailwind CSS',
-                backend: 'Node.js, Express, MongoDB',
-                payment: 'Stripe API',
-                auth: 'JWT tokens'
-            }
-        }
+  projects: {
+    'rainbow-dqn-tetris': {
+      title: 'Rainbow DQN-based Tetris AI',
+      description: 'A sophisticated Tetris-playing AI agent using Rainbow DQN reinforcement learning algorithm.',
+      technologies: ['Python', 'PyTorch', 'OpenAI Gym', 'NumPy', 'Matplotlib'],
+      category: 'AI/ML',
+      status: 'Completed',
+      year: '2025',
+      githubUrl: 'https://github.com/grenademeister/rainbow-dqn-tetris',
+      features: [
+        'Rainbow DQN implementation with Double DQN',
+        'Dueling Networks architecture',
+        'Prioritized Experience Replay',
+        'Multi-step Learning',
+        'Distributional RL',
+        'Noisy Networks',
+        'Real-time gameplay visualization',
+        'Training progress monitoring'
+      ],
+      performance: 'Advanced RL agent demonstrating strategic piece placement and line clearing through self-learning',
+      researchAspects: [
+        'Reinforcement Learning algorithm optimization',
+        'Neural network architecture design',
+        'Training stability improvements',
+        'Performance analysis and metrics'
+      ]
     },
-
-    profile: {
-        name: 'Full-Stack Developer',
-        tagline: 'Passionate about creating innovative web applications',
-        skills: {
-            frontend: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS'],
-            backend: ['Node.js', 'Python', 'Express', 'FastAPI'],
-            database: ['MongoDB', 'PostgreSQL', 'Redis'],
-            devops: ['Docker', 'AWS', 'CI/CD'],
-            aiml: ['TensorFlow', 'PyTorch', 'OpenAI API']
-        },
-        experience: '5+ years in web development',
-        achievements: [
-            'Led 10+ successful projects',
-            'Mentored junior developers',
-            'Open source contributor'
-        ],
-        contact: {
-            email: 'developer@example.com',
-            github: 'github.com/developer',
-            linkedin: 'linkedin.com/in/developer',
-            location: 'San Francisco, CA'
-        }
+    'cnn-rnn-accelerator': {
+      title: 'Hardware-Aware CNN Kernel Sequentialization',
+      description: 'Research project optimizing CNN operations for RNN-based AI accelerator hardware.',
+      technologies: ['Python', 'PyTorch', 'Hardware Simulation', 'Performance Profiling'],
+      category: 'AI/Hardware',
+      status: 'Ongoing',
+      year: '2025',
+      affiliation: 'LIST, Seoul National University',
+      features: [
+        'Novel sequentialization algorithm for CNN kernels',
+        'Hardware-aware optimization techniques',
+        'Memory access pattern optimization',
+        'CNN-to-RNN transformation strategies',
+        'Performance benchmarking framework',
+        'Edge AI optimization'
+      ],
+      researchGoals: [
+        'Develop efficient CNN kernel sequentialization',
+        'Optimize for RNN accelerator architecture',
+        'Minimize computational overhead',
+        'Improve memory efficiency',
+        'Enable edge AI deployment'
+      ],
+      applications: [
+        'Edge AI devices',
+        'Mobile AI acceleration',
+        'IoT applications',
+        'Power-efficient inference'
+      ]
+    },
+    'transformer-from-scratch': {
+      title: 'Transformer Architecture Implementation',
+      description: 'Complete Transformer neural network built from scratch with NPU inference optimization.',
+      technologies: ['Python', 'PyTorch', 'Hugging Face Transformers', 'NPU Libraries', 'CUDA'],
+      category: 'AI/ML',
+      status: 'Completed',
+      year: '2024',
+      githubUrl: 'https://github.com/grenademeister/transformer-from-scratch',
+      features: [
+        'Complete Transformer implementation from scratch',
+        'Multi-head self-attention mechanism',
+        'Positional encoding system',
+        'Layer normalization and residual connections',
+        'NPU-optimized inference pipeline',
+        'Local deployment capabilities',
+        'Efficient memory management'
+      ],
+      learningOutcomes: [
+        'Deep understanding of attention mechanisms',
+        'Transformer architecture internals',
+        'Hardware optimization techniques',
+        'NPU programming and deployment'
+      ],
+      technicalDetails: [
+        'Built without pre-trained models',
+        'NPU hardware acceleration',
+        'Support for variable sequence lengths',
+        'Memory-efficient inference'
+      ]
+    },
+    'brazil-nut-effect': {
+      title: 'Horizontal Brazil Nut Effect Analysis',
+      description: 'Physics graduation research developing analytical model for granular segregation through void filling.',
+      technologies: ['Mathematical Modeling', 'Statistical Mechanics', 'Python', 'Physics Simulation'],
+      category: 'Physics Research',
+      status: 'Completed',
+      year: '2023',
+      affiliation: 'Gyeonggi Science High School for the Gifted',
+      features: [
+        'Novel analytical approach to Brazil nut effect',
+        'Void filling mechanism characterization',
+        'Horizontal segregation pattern analysis',
+        'Theoretical framework development',
+        'Mathematical model implementation',
+        'Particle system simulation'
+      ],
+      researchContributions: [
+        'Theoretical modeling of granular segregation',
+        'Void filling mechanism analysis',
+        'Horizontal particle migration study',
+        'Mathematical framework for physical phenomena'
+      ],
+      applications: [
+        'Granular materials processing',
+        'Industrial mixing processes',
+        'Pharmaceutical powder handling',
+        'Food processing optimization'
+      ]
     }
+  },
+  
+  profile: {
+    name: 'Hyeokgi Kim',
+    title: 'ECE Undergraduate & AI Engineer',
+    tagline: 'Passionate about applied machine learning, deep learning, and reinforcement learning',
+    skills: {
+      programming: ['Python', 'C++', 'JavaScript'],
+      deepLearning: ['PyTorch', 'TensorFlow', 'Hugging Face Transformers'],
+      reinforcementLearning: ['OpenAI Gym', 'Rainbow DQN', 'Policy Gradients'],
+      classicalML: ['Scikit-learn', 'NumPy', 'Pandas'],
+      hardware: ['NPU Optimization', 'Hardware Simulation', 'Performance Profiling'],
+      research: ['Mathematical Modeling', 'Statistical Mechanics', 'Physics Simulation']
+    },
+    education: {
+      current: 'Seoul National University - Electrical & Computer Engineering (GPA: 4.3/4.5)',
+      previous: 'Gyeonggi Science High School for the Gifted (GPA: 4.27/4.3)'
+    },
+    experience: [
+      'Research Intern at LIST, Seoul National University (May 2025 - Aug 2025)',
+      'Student Member of Deepest Research Group (Since 2025)',
+      'National Scholarship for Outstanding STEM Students (Since 2024)'
+    ],
+    researchInterests: [
+      'Applied Machine Learning',
+      'Deep Learning & Neural Networks', 
+      'Reinforcement Learning',
+      'Hardware-aware AI Acceleration',
+      'Granular Physics Modeling'
+    ],
+    contact: {
+      email: 'ryan0905@snu.ac.kr',
+      github: 'github.com/grenademeister',
+      university: 'Seoul National University',
+      location: 'Seoul, South Korea'
+    }
+  }
 };

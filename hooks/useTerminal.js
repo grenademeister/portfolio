@@ -17,14 +17,32 @@ export const useTerminal = () => {
         clearHistory
     } = useCommandHistory();
 
-    const fileSystemHook = useFileSystem();
-
-    // Welcome message
+    const fileSystemHook = useFileSystem();    // Welcome message with ASCII art
     useEffect(() => {
+        const welcomeMessage = `
+ ██   ██ ██    ██ ███████  ██████  ██   ██  ██████  ██ 
+ ██   ██  ██  ██  ██      ██    ██ ██  ██  ██       ██ 
+ ███████   ████   █████   ██    ██ █████   ██   ███ ██ 
+ ██   ██    ██    ██      ██    ██ ██  ██  ██    ██ ██ 
+ ██   ██    ██    ███████  ██████  ██   ██  ██████  ██ 
+                                                       
+          ██   ██ ██ ███    ███                        
+          ██  ██  ██ ████  ████                        
+          █████   ██ ██ ████ ██                        
+          ██  ██  ██ ██  ██  ██                        
+          ██   ██ ██ ██      ██                        
+
+    ECE Undergraduate & AI Engineer
+
+Welcome to the CLI Portfolio! Type "help" for available commands.
+Try "ascii" for this banner again, or "neofetch" for info about me.
+Type "exit" to see the GUI version of this portfolio.
+`;
+
         setOutput([
             {
                 type: 'system',
-                content: 'Welcome to the CLI Portfolio! Type "help" for available commands.',
+                content: welcomeMessage,
                 timestamp: new Date()
             }
         ]);
