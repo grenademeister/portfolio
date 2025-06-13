@@ -226,9 +226,10 @@ const useActiveSectionObserver = () => {
     return activeSection;
 };
 
-function Section({ children, className }) {
+function Section({ children, className, id }) {
     return (
         <motion.section
+            id={id}
             className={className}
             initial="hidden"
             whileInView="visible"
@@ -418,8 +419,7 @@ export default function PortfolioPage() {
     const [formError, setFormError] = useState('');
     const [formSuccess, setFormSuccess] = useState('');
     const [currentPage, setCurrentPage] = useState('portfolio'); // New state for page switching
-    const activeSection = useActiveSectionObserver();
-    useEffect(() => {
+    const activeSection = useActiveSectionObserver(); useEffect(() => {
         // Check if theme is stored in localStorage
         const savedTheme = localStorage.getItem('theme') || 'dark';
         setTheme(savedTheme);
@@ -429,41 +429,6 @@ export default function PortfolioPage() {
         } else {
             document.documentElement.classList.remove('dark');
         }
-
-        // Add smooth scroll behavior for anchor links
-        const handleAnchorClick = (e) => {
-            const target = e.target.closest('a[href^="#"]');
-            if (!target) return;
-
-            e.preventDefault();
-            const targetId = target.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                // Get the height of the navbar for offset
-                const navbarHeight = document.querySelector('nav').offsetHeight;
-
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        };
-
-        // Add event listener to the navigation links
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', handleAnchorClick);
-        });
-
-        // Cleanup event listeners
-        return () => {
-            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-                anchor.removeEventListener('click', handleAnchorClick);
-            });
-        };
     }, []); const toggleTheme = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -474,6 +439,20 @@ export default function PortfolioPage() {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
+        }
+    };
+
+    const scrollToSection = (sectionId) => {
+        const targetElement = document.querySelector(sectionId);
+        if (targetElement) {
+            const navbarHeight = document.querySelector('nav').offsetHeight;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight - 20; // Extra 20px padding
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     };
 
@@ -540,22 +519,20 @@ export default function PortfolioPage() {
             <div className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <p className="font-semibold tracking-tight">{PROFILE.name}</p>
                 <div className="flex items-center">
-                    <ul className="flex gap-6 mr-4">
-                        <li>
-                            <a
-                                href="#about"
-                                className={`text-sm transition-colors ${activeSection === 'about'
-                                    ? 'text-blue-400 font-medium'
-                                    : 'hover:text-blue-400'
-                                    }`}
-                                aria-label="Navigate to About section"
-                            >
-                                About
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#education"
+                    <ul className="flex gap-6 mr-4">                        <li>
+                        <button
+                            onClick={() => scrollToSection('#about')}
+                            className={`text-sm transition-colors ${activeSection === 'about'
+                                ? 'text-blue-400 font-medium'
+                                : 'hover:text-blue-400'
+                                }`}
+                            aria-label="Navigate to About section"
+                        >
+                            About
+                        </button>
+                    </li>                        <li>
+                            <button
+                                onClick={() => scrollToSection('#education')}
                                 className={`text-sm transition-colors ${activeSection === 'education'
                                     ? 'text-blue-400 font-medium'
                                     : 'hover:text-blue-400'
@@ -563,11 +540,10 @@ export default function PortfolioPage() {
                                 aria-label="Navigate to Education section"
                             >
                                 Education
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#skills"
+                            </button>
+                        </li>                        <li>
+                            <button
+                                onClick={() => scrollToSection('#skills')}
                                 className={`text-sm transition-colors ${activeSection === 'skills'
                                     ? 'text-blue-400 font-medium'
                                     : 'hover:text-blue-400'
@@ -575,11 +551,10 @@ export default function PortfolioPage() {
                                 aria-label="Navigate to Skills section"
                             >
                                 Skills
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#projects"
+                            </button>
+                        </li>                        <li>
+                            <button
+                                onClick={() => scrollToSection('#projects')}
                                 className={`text-sm transition-colors ${activeSection === 'projects'
                                     ? 'text-blue-400 font-medium'
                                     : 'hover:text-blue-400'
@@ -587,11 +562,10 @@ export default function PortfolioPage() {
                                 aria-label="Navigate to Projects section"
                             >
                                 Projects
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#experience"
+                            </button>
+                        </li>                        <li>
+                            <button
+                                onClick={() => scrollToSection('#experience')}
                                 className={`text-sm transition-colors ${activeSection === 'experience'
                                     ? 'text-blue-400 font-medium'
                                     : 'hover:text-blue-400'
@@ -599,11 +573,10 @@ export default function PortfolioPage() {
                                 aria-label="Navigate to Experience section"
                             >
                                 Experience
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#contact"
+                            </button>
+                        </li>                        <li>
+                            <button
+                                onClick={() => scrollToSection('#contact')}
                                 className={`text-sm transition-colors ${activeSection === 'contact'
                                     ? 'text-blue-400 font-medium'
                                     : 'hover:text-blue-400'
@@ -611,16 +584,8 @@ export default function PortfolioPage() {
                                 aria-label="Navigate to Contact section"
                             >
                                 Contact
-                            </a>
-                        </li>
-                    </ul>
-                    <button
-                        onClick={switchPage}
-                        className="px-3 py-1 mr-4 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
-                        aria-label="Switch to blank page"
-                    >
-                        Blank Page
-                    </button>
+                            </button>
+                        </li></ul>
                     <button
                         onClick={toggleTheme}
                         className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all"
@@ -636,18 +601,16 @@ export default function PortfolioPage() {
                     </button>
                 </div>
             </div>
-        </motion.nav>
-
-        {/* Hero */}
+        </motion.nav>        {/* Hero */}
         <header id="about" className="relative overflow-hidden">
             <motion.div
                 className="container mx-auto px-6 py-24 flex flex-col items-start gap-4"
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
-            >
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+            >                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                     {PROFILE.name}
-                </h1>                <p className="text-xl md:text-2xl text-blue-400/90">
+                </h1>
+                <p className="text-xl md:text-2xl text-blue-400/90">
                     {PROFILE.tagline}
                 </p>
                 <p className="max-w-xl leading-relaxed mt-4 text-neutral-600 dark:text-neutral-300">
@@ -667,17 +630,27 @@ export default function PortfolioPage() {
                     >
                         <Mail className="w-6 h-6" />
                     </a>
+                </div>                <div className="flex gap-4 mt-8">
+                    <motion.a
+                        href="/cv.pdf"
+                        download
+                        className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        Download CV
+                    </motion.a>
+                    <motion.button
+                        onClick={switchPage}
+                        className="px-6 py-3 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                        aria-label="Switch to CLI portfolio"
+                    >
+                        <Terminal className="w-4 h-4" />
+                        CLI Portfolio
+                    </motion.button>
                 </div>
-
-                <motion.a
-                    href="/cv.pdf"
-                    download
-                    className="inline-block mt-8 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                >
-                    Download CV
-                </motion.a>
             </motion.div>
             {/* subtle animated gradient */}
             <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-tr from-blue-700/30 via-fuchsia-600/10 to-transparent blur-3xl" />
