@@ -70,7 +70,7 @@ const Output = ({ output, theme }) => {
                 {line || '\u00A0'}
             </div>
         ));
-    };    return (
+    }; return (
         <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 font-mono text-xs sm:text-sm terminal-scroll">
             {output.map((item, index) => (
                 <motion.div

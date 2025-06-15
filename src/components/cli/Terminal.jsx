@@ -62,20 +62,20 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
     const handleTerminalClick = (e) => {
         // Prevent focusing if user is selecting text
         if (window.getSelection().toString()) return;
-        
+
         // Focus input on any click
         focusInput();
-        
+
         // On mobile, ensure the input is scrolled into view
         if (window.innerWidth < 768) {
             setTimeout(() => {
-                inputRef.current?.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
+                inputRef.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
                 });
             }, 100);
         }
-    };const getTerminalBg = () => {
+    }; const getTerminalBg = () => {
         switch (currentTheme) {
             case 'matrix':
                 return 'bg-black';
@@ -103,7 +103,7 @@ const Terminal = ({ theme = 'default', onThemeChange, onSkipToGUI }) => {
             default:
                 return 'text-green-400';
         }
-    };    return (
+    }; return (
         <div
             className={`
                 h-full w-full ${getTerminalBg()} ${getTextColor()}

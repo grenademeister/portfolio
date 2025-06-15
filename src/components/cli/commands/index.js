@@ -240,10 +240,10 @@ Feel free to reach out for opportunities or collaborations!`,
                 window.dispatchEvent(new CustomEvent('skipToGUI'));
             }, 1000);
         }
-    }),    ascii: () => {
+    }), ascii: () => {
         // Detect if mobile/small screen
         const isMobile = window.innerWidth < 768;
-        
+
         if (isMobile) {
             return {
                 output: `
@@ -279,7 +279,7 @@ Welcome to my portfolio!`,
                 type: 'output'
             };
         }
-    },neofetch: () => {
+    }, neofetch: () => {
         const profile = portfolioData.profile;
 
         // Calculate uptime since birth (2005/9/5, 10:27:00 PM)

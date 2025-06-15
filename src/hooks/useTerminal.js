@@ -20,7 +20,7 @@ export const useTerminal = () => {
     const fileSystemHook = useFileSystem();    // Welcome message with ASCII art
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
-        
+
         const welcomeMessage = isMobile ? `
 ╔═══════════════════════════════╗
 ║        HYEOKGI KIM            ║
