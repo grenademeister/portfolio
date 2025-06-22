@@ -62,7 +62,7 @@ export default function PortfolioPage() {
 
     // If we're on the blank page, render CLI interface
     if (currentPage === 'blank') {
-        return <BlankPage theme={theme} toggleTheme={toggleTheme} switchPage={switchPage} />;
+        return <BlankPage switchPage={switchPage} />;
     }
 
     // Main portfolio page

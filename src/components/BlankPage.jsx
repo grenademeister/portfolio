@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import Terminal from "./cli/Terminal";
-import ProjectModal from "./modals/ProjectModal";
 
 /**
  * BlankPage Component - CLI Portfolio Interface
  * --------------------------------------------------
  * A CLI-style portfolio interface implemented in React
  */
-function BlankPage({ theme, toggleTheme, switchPage }) {
+function BlankPage({ switchPage }) {
     const [cliTheme, setCLITheme] = useState('matrix');
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
     const handleThemeChange = (newTheme) => {
         setCLITheme(newTheme);
@@ -21,30 +18,7 @@ function BlankPage({ theme, toggleTheme, switchPage }) {
         switchPage();
     };
 
-    // Hide scrollbars and prevent body scroll when in CLI mode
-    React.useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-
-        return () => {
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-        };
-    }, []);
-
-    // Listen for project open events
-    React.useEffect(() => {
-        const handleOpenProject = (event) => {
-            setSelectedProject(event.detail);
-            setIsProjectModalOpen(true);
-        };
-
-        window.addEventListener('openProject', handleOpenProject);
-
-        return () => {
-            window.removeEventListener('openProject', handleOpenProject);
-        };
-    }, []); return (
+    return (
         <div className="h-screen w-screen bg-black text-green-400 font-mono antialiased overflow-hidden fixed top-0 left-0">            {/* Subtle Exit Button - Top Right Corner */}
             <button
                 onClick={handleSkipToGUI}
@@ -64,15 +38,6 @@ function BlankPage({ theme, toggleTheme, switchPage }) {
                 />
             </div>
 
-            {/* Project Modal */}
-            <ProjectModal
-                projectId={selectedProject}
-                isOpen={isProjectModalOpen}
-                onClose={() => {
-                    setIsProjectModalOpen(false);
-                    setSelectedProject(null);
-                }}
-            />
         </div>
     );
 }

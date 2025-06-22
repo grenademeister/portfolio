@@ -55,27 +55,6 @@ export const fileSystem = {
                                 type: 'file',
                                 content: `Hyeokgi Kim
 ECE Undergraduate & AI Engineer`
-                            }, 'resume.pdf': {
-                                type: 'file',
-                                content: 'PDF Resume - Hyeokgi Kim, ECE Student & AI Engineer'
-                            },
-                            'research': {
-                                type: 'directory',
-                                children: {
-                                    'papers': {
-                                        type: 'directory',
-                                        children: {
-                                            'cnn-rnn-accelerator-paper.pdf': {
-                                                type: 'file',
-                                                content: 'Research paper on Hardware-Aware CNN Kernel Sequentialization (In Progress)'
-                                            },
-                                            'brazil-nut-thesis.pdf': {
-                                                type: 'file',
-                                                content: 'Graduation thesis: Analytic model of horizontal Brazil nut effect by void filling'
-                                            },
-                                        }
-                                    },
-                                }
                             }, 'contact.txt': {
                                 type: 'file',
                                 content: `Contact Information - Hyeokgi Kim
