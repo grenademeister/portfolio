@@ -30,7 +30,7 @@ export default function PortfolioPage() {
     // State management
     const [activeSkills, setActiveSkills] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
-    const [currentPage, setCurrentPage] = useState('portfolio');
+    const [currentPage, setCurrentPage] = useState('blank');
 
     // Custom hooks
     const activeSection = useActiveSectionObserver();
