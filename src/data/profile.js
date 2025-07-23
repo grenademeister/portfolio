@@ -4,6 +4,9 @@ export const PROFILE = {
     email: "ryan0905@snu.ac.kr",
     github: "https://github.com/grenademeister",
     summary:
+        "ECE undergraduate at Seoul National University\n" +
+        "Generative Models · Medical Imaging · Reinforcement Learning",
+    description:
         "Electrical & Computer Engineering student at Seoul National University focused on applied machine learning, reinforcement learning, and hardware-aware AI acceleration. Experienced in developing AI agents and neural network models with hands-on projects in reinforcement learning and transformer-based models."
 };
 
@@ -12,7 +15,7 @@ export const EDUCATION = [
         institution: "Seoul National University",
         degree: "Electrical & Computer Engineering",
         period: "2024 - Present",
-        gpa: "4.1 / 4.3",
+        gpa: "4.17 / 4.3",
         icon: "GraduationCap"
     },
     {
@@ -37,11 +40,20 @@ export const SKILLS = {
         { name: "Python", icon: "FileCode" },
         { name: "C/C++", icon: "Code2" },
         { name: "JavaScript (React)", icon: "Laptop2" },
-        { name: "Git", icon: "GitBranch" }
+        { name: "Git", icon: "GitBranch" },
+        { name: "Linux", icon: "Terminal" },
     ]
 };
 
 export const PROJECTS = [
+    {
+        title: "Longitudinal MRI reconstruction with Diffusion/Flow Models",
+        year: 2025,
+        description:
+            "Developed a novel diffusion model and flow based model for reconstructing longitudinal MRI data",
+        detailedDescription: "Created advanced generative models to reconstruct high-quality longitudinal MRI images from sparse data. The project involved designing and training diffusion and flow-based models, achieving state-of-the-art results in medical imaging tasks.",
+        tags: ["Python", "PyTorch", "Medical Imaging", "Diffusion Models"],
+    },
     {
         title: "Hardware-Aware Sequentialization of CNN Kernels",
         year: 2025,
@@ -81,7 +93,7 @@ export const EXPERIENCE = [
         role: "Research Intern",
         org: "LIST, Seoul National University",
         period: "May 2025 ~ Aug 2025",
-        description: "Conducted research on hardware-aware AI optimization techniques in the Laboratory for Imaging science & technology. Focused on developing efficient neural network architectures for specialized hardware accelerators.",
+        description: "Conducted research on longitudinal MRI reconstruction in the Laboratory for Imaging science & technology. Focused on developing efficient neural network architectures for 3D whole brain processing.",
         icon: "Award",
     },
     {

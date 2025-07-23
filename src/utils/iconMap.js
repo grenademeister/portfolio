@@ -13,6 +13,7 @@ import {
     Laptop2,
     GitBranch,
     Award,
+    Terminal,
 } from "lucide-react";
 
 // Map of icon names to their corresponding Lucide React components
@@ -30,6 +31,7 @@ export const iconMap = {
     Laptop2,
     GitBranch,
     Award,
+    Terminal,
 };
 
 // Helper function to get an icon component by name

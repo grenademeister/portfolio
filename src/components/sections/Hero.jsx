@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
-import { Github, Mail, Terminal } from "lucide-react";
+import { Github, Mail, Terminal, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
+import cvFile from "/cv.pdf";
 
 /**
  * Hero section component with profile information and action buttons
  */
 export function Hero({ profile, switchPage }) {
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     return (
         <header id="about" className="relative overflow-hidden">
             <motion.div
@@ -18,9 +21,42 @@ export function Hero({ profile, switchPage }) {
                 <p className="text-xl md:text-2xl text-blue-400/90">
                     {profile.tagline}
                 </p>
-                <p className="max-w-xl leading-relaxed mt-4 text-neutral-600 dark:text-neutral-300">
-                    {profile.summary}
-                </p>
+                <div className="max-w-xl mt-4">
+                    <p className="whitespace-pre-line leading-relaxed text-neutral-600 dark:text-neutral-300">
+                        {profile.summary}
+                    </p>
+
+                    {/* Description dropdown */}
+                    <div className="mt-3">
+                        <button
+                            onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                            className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                            aria-expanded={isDescriptionExpanded}
+                            aria-label={isDescriptionExpanded ? "Hide description" : "Show description"}
+                        >
+                            <span>More about me</span>
+                            {isDescriptionExpanded ? (
+                                <ChevronUp className="w-4 h-4" />
+                            ) : (
+                                <ChevronDown className="w-4 h-4" />
+                            )}
+                        </button>
+
+                        <motion.div
+                            initial={false}
+                            animate={{
+                                height: isDescriptionExpanded ? "auto" : 0,
+                                opacity: isDescriptionExpanded ? 1 : 0
+                            }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                        >
+                            <p className="pt-3 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
+                                {profile.description}
+                            </p>
+                        </motion.div>
+                    </div>
+                </div>
 
                 <div className="flex gap-6 mt-6">
                     <a
@@ -43,7 +79,7 @@ export function Hero({ profile, switchPage }) {
 
                 <div className="flex gap-4 mt-8">
                     <motion.a
-                        href="/cv.pdf"
+                        href={cvFile}
                         download
                         className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
                         whileHover={{ scale: 1.05 }}
