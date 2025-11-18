@@ -23,9 +23,11 @@ export default function PortfolioPage() {
         )
         : PROJECTS;
 
-    const sortedProjects = filteredProjects.slice().sort(
-        (a, b) => Number(b.showOnTop) - Number(a.showOnTop)
-    );
+    const sortedProjects = filteredProjects
+        .slice()
+        .sort((a, b) =>
+            Number(b.showOnTop) - Number(a.showOnTop) || Number(b.year) - Number(a.year)
+        );
     const topProjects = sortedProjects.filter((project) => project.showOnTop);
     const visibleProjects = showAllProjects
         ? sortedProjects
