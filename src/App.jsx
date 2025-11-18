@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
 import { Hero } from "./components/sections/Hero";
 import { EducationSection } from "./components/sections/EducationSection";
@@ -10,9 +10,12 @@ import { Footer } from "./components/layout/Footer";
 import { PROFILE, EDUCATION, SKILLS, PROJECTS, EXPERIENCE } from "./data/profile";
 import { useActiveSectionObserver, useTheme } from "./hooks";
 
+const PROJECT_PREVIEW_COUNT = 3;
+
 export default function PortfolioPage() {
     const [activeSkills, setActiveSkills] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
+    const [showAllProjects, setShowAllProjects] = useState(false);
     const activeSection = useActiveSectionObserver();
     const { theme, toggleTheme } = useTheme();
 
@@ -22,6 +25,10 @@ export default function PortfolioPage() {
         )
         : PROJECTS;
 
+    const visibleProjects = showAllProjects
+        ? filteredProjects
+        : filteredProjects.slice(0, PROJECT_PREVIEW_COUNT);
+
     const toggleSkill = (skill) => {
         setActiveSkills((prev) =>
             prev.includes(skill)
@@ -29,6 +36,10 @@ export default function PortfolioPage() {
                 : [...prev, skill]
         );
     };
+
+    useEffect(() => {
+        setShowAllProjects(false);
+    }, [activeSkills]);
 
     return (
         <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100 font-sans antialiased selection:bg-blue-600/90">
@@ -53,7 +64,11 @@ export default function PortfolioPage() {
             />
 
             <ProjectsSection
-                projects={filteredProjects}
+                projects={visibleProjects}
+                totalProjects={filteredProjects.length}
+                previewCount={PROJECT_PREVIEW_COUNT}
+                isExpanded={showAllProjects}
+                onToggleExpand={() => setShowAllProjects((prev) => !prev)}
                 onProjectSelect={setSelectedProject}
             />
 
