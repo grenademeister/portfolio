@@ -18,7 +18,7 @@ export function Hero({ profile }) {
                 <p className="text-xl md:text-2xl text-blue-400/90">
                     {profile.tagline}
                 </p>
-                <div className="max-w-xl mt-4">
+                <div className="max-w-2xl">
                     <p className="whitespace-pre-line leading-relaxed text-neutral-600 dark:text-neutral-300">
                         {profile.summary}
                     </p>
@@ -48,7 +48,7 @@ export function Hero({ profile }) {
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="overflow-hidden"
                         >
-                            <p className="pt-3 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
+                            <p className="pt-3 text-sm leading-relaxed whitespace-pre-line text-neutral-500 dark:text-neutral-400">
                                 {profile.description}
                             </p>
                         </motion.div>

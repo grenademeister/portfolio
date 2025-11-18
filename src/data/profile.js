@@ -1,13 +1,14 @@
 export const PROFILE = {
     name: "Hyeokgi Kim",
-    tagline: "Undergraduate ECE Student & AI Engineer",
+    tagline: "Undergraduate ECE Student",
     email: "ryan0905@snu.ac.kr",
     github: "https://github.com/grenademeister",
     summary:
-        "Generative Models · Medical Imaging",
+        "AI enthusiast · Generative Models · Medical Imaging",
     description:
-        "Electrical & Computer Engineering student at Seoul National University focused on applied machine learning, generative AI, and MR imaging.\n" +
-        "Experienced in developing AI agents and neural network models with various projects and research internships."
+        "Hi 👋 , I'm an Electrical & Computer Engineering student studying at Seoul National University.\n" +
+        "I'm primarily interested in applied machine learning, generative AI, and MR imaging.\n" +
+        "I've experienced developing AI agents and neural network models with various projects and research internships."
 };
 
 export const EDUCATION = [

@@ -5,7 +5,6 @@ import { EducationSection } from "./components/sections/EducationSection";
 import { SkillsSection } from "./components/sections/SkillsSection";
 import { ProjectsSection } from "./components/sections/ProjectsSection";
 import { ExperienceSection } from "./components/sections/ExperienceSection";
-import { ContactSection } from "./components/sections/ContactSection";
 import { ProjectModal } from "./components/modals/ProjectDetailModal";
 import { Footer } from "./components/layout/Footer";
 import { PROFILE, EDUCATION, SKILLS, PROJECTS, EXPERIENCE } from "./data/profile";
@@ -44,6 +43,8 @@ export default function PortfolioPage() {
 
             <EducationSection education={EDUCATION} />
 
+            <ExperienceSection experience={EXPERIENCE} />
+
             <SkillsSection
                 skills={SKILLS}
                 activeSkills={activeSkills}
@@ -55,10 +56,6 @@ export default function PortfolioPage() {
                 projects={filteredProjects}
                 onProjectSelect={setSelectedProject}
             />
-
-            <ExperienceSection experience={EXPERIENCE} />
-
-            <ContactSection />
 
             <Footer profileName={PROFILE.name} />
 
