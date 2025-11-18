@@ -102,7 +102,7 @@ export const PROJECTS = [
         showOnTop: true,
     },
     {
-        title: "PokeAgent challenge: long-horizon gameplay agent for Pokemon games",
+        title: "Long-horizon Pokemon gameplay agent",
         year: 2025,
         description:
             "Developed an AI agent capable of playing Pokemon games as part of the NeurIPS 2025 PokeAgent challenge",
