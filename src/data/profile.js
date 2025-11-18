@@ -4,10 +4,10 @@ export const PROFILE = {
     email: "ryan0905@snu.ac.kr",
     github: "https://github.com/grenademeister",
     summary:
-        "ECE undergraduate at Seoul National University\n" +
-        "Generative Models · Medical Imaging · Reinforcement Learning",
+        "Generative Models · Medical Imaging",
     description:
-        "Electrical & Computer Engineering student at Seoul National University focused on applied machine learning, reinforcement learning, and hardware-aware AI acceleration. Experienced in developing AI agents and neural network models with hands-on projects in reinforcement learning and transformer-based models."
+        "Electrical & Computer Engineering student at Seoul National University focused on applied machine learning, generative AI, and MR imaging.\n" +
+        "Experienced in developing AI agents and neural network models with various projects and research internships."
 };
 
 export const EDUCATION = [
@@ -16,14 +16,14 @@ export const EDUCATION = [
         degree: "Electrical & Computer Engineering",
         period: "2024 - Present",
         gpa: "4.17 / 4.3",
-        icon: "GraduationCap"
+        icon: "BookOpen"
     },
     {
         institution: "Gyeonggi Science High School for the Gifted",
         degree: "Physics Track",
         period: "Graduated 2023",
         gpa: "4.27 / 4.3",
-        icon: "BookOpen"
+        icon: "GraduationCap"
     }
 ];
 
@@ -92,22 +92,22 @@ export const EXPERIENCE = [
     {
         role: "Research Intern",
         org: "LIST, Seoul National University",
-        period: "May 2025 ~ Aug 2025",
-        description: "Conducted research on longitudinal MRI reconstruction in the Laboratory for Imaging science & technology. Focused on developing efficient neural network architectures for 3D whole brain processing.",
+        period: "May 2025 ~ February 2026",
+        description: "Conducted research on longitudinal MRI reconstruction in the Laboratory for Imaging science & technology(LIST).",
         icon: "Award",
     },
     {
         role: "Student Member",
         org: "DEEPEST(Research Group)",
         period: "Since 2025",
-        description: "Active member of a student-led AI research community focused on deep learning and its applications. Collaborated on projects and participated in knowledge-sharing sessions on cutting-edge AI techniques.",
+        description: "Active member of a student-led AI research society DEEPEST, focused on deep learning and its applications.",
         icon: "BookOpen",
     },
     {
         role: "STEM National Scholarship",
         org: "Korea Student Aid Foundation",
         period: "Since 2024",
-        description: "Recipient of the prestigious National Scholarship for Outstanding STEM Students, awarded based on academic excellence and research potential in science and engineering fields.",
+        description: "Recipient of the National Scholarship for Outstanding STEM Students, awarded based on academic excellence and research potential.",
         icon: "GraduationCap",
     },
 ];
