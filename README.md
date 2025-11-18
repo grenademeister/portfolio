@@ -2,9 +2,7 @@
 
 Personal portfolio website built with React.
 
-Interactive CV/resume with dual interfaces:
-- GUI mode: Traditional portfolio layout
-- CLI mode: Terminal-style interface
+Interactive CV/resume with a single, focused layout.
 
 ## Tech Stack
 

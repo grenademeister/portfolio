@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import { Github, Mail, Terminal, ChevronDown, ChevronUp } from "lucide-react";
+import { Github, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import cvFile from "/cv.pdf";
 
-/**
- * Hero section component with profile information and action buttons
- */
-export function Hero({ profile, switchPage }) {
+export function Hero({ profile }) {
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     return (
         <header id="about" className="relative overflow-hidden">
@@ -87,16 +84,6 @@ export function Hero({ profile, switchPage }) {
                     >
                         Download CV
                     </motion.a>
-                    <motion.button
-                        onClick={switchPage}
-                        className="px-6 py-3 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label="Switch to CLI portfolio"
-                    >
-                        <Terminal className="w-4 h-4" />
-                        CLI Portfolio
-                    </motion.button>
                 </div>
             </motion.div>
 
