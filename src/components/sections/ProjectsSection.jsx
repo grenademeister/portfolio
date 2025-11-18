@@ -12,7 +12,7 @@ export function ProjectsSection({
     onProjectSelect
 }) {
     const canExpand = totalProjects > previewCount;
-    const hiddenCount = Math.max(totalProjects - projects.length, 0);
+    const toggleLabel = isExpanded ? "Show fewer" : `Show all (${totalProjects})`;
 
     return (
         <Section id="projects" className="container mx-auto px-6 py-16">
@@ -38,13 +38,7 @@ export function ProjectsSection({
                                     stiffness: 150,
                                     damping: 15
                                 }}
-                                style={{
-                                    transformOrigin: "center"
-                                }}
-                                whileHover={{
-                                    y: -8,
-                                    transition: { duration: 0.2, ease: "easeOut" }
-                                }}
+                                whileHover={{ y: -8, transition: { duration: 0.2, ease: "easeOut" } }}
                                 onClick={() => onProjectSelect(project)}
                                 role="button"
                                 aria-label={`View details for ${project.title}`}
@@ -92,14 +86,7 @@ export function ProjectsSection({
                                 aria-expanded={isExpanded}
                                 className="px-4 py-2 rounded-full border border-blue-200 dark:border-neutral-700 bg-blue-50 dark:bg-neutral-800 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors"
                             >
-                                {isExpanded
-                                    ? "Show fewer projects"
-                                    : `Show all projects (${totalProjects})`}
-                                {!isExpanded && hiddenCount > 0 && (
-                                    <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-                                        +{hiddenCount} more
-                                    </span>
-                                )}
+                                {toggleLabel}
                             </button>
                         </div>
                     )}
