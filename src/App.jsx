@@ -10,8 +10,6 @@ import { Footer } from "./components/layout/Footer";
 import { PROFILE, EDUCATION, SKILLS, PROJECTS, EXPERIENCE } from "./data/profile";
 import { useActiveSectionObserver, useTheme } from "./hooks";
 
-const PROJECT_PREVIEW_COUNT = 3;
-
 export default function PortfolioPage() {
     const [activeSkills, setActiveSkills] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
@@ -25,13 +23,15 @@ export default function PortfolioPage() {
         )
         : PROJECTS;
 
-    const sortedProjects = filteredProjects
-        .slice()
-        .sort((a, b) => Number(b.showOnTop) - Number(a.showOnTop));
-
+    const sortedProjects = filteredProjects.slice().sort(
+        (a, b) => Number(b.showOnTop) - Number(a.showOnTop)
+    );
+    const topProjects = sortedProjects.filter((project) => project.showOnTop);
     const visibleProjects = showAllProjects
         ? sortedProjects
-        : sortedProjects.slice(0, PROJECT_PREVIEW_COUNT);
+        : topProjects.length
+            ? topProjects
+            : sortedProjects;
 
     const toggleSkill = (skill) => {
         setActiveSkills((prev) =>
@@ -70,7 +70,6 @@ export default function PortfolioPage() {
             <ProjectsSection
                 projects={visibleProjects}
                 totalProjects={filteredProjects.length}
-                previewCount={PROJECT_PREVIEW_COUNT}
                 isExpanded={showAllProjects}
                 onToggleExpand={() => setShowAllProjects((prev) => !prev)}
                 onProjectSelect={setSelectedProject}

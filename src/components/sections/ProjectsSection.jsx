@@ -6,12 +6,11 @@ import { projectAnimation } from "../../constants/animations";
 export function ProjectsSection({
     projects,
     totalProjects,
-    previewCount = 3,
     isExpanded,
     onToggleExpand,
     onProjectSelect
 }) {
-    const canExpand = totalProjects > previewCount;
+    const canToggle = totalProjects > projects.length || isExpanded;
     const toggleLabel = isExpanded ? "Show fewer" : `Show all (${totalProjects})`;
 
     return (
@@ -79,7 +78,7 @@ export function ProjectsSection({
                         ))}
                     </div>
 
-                    {canExpand && (
+                    {canToggle && (
                         <div className="mt-8 flex justify-center">
                             <button
                                 onClick={onToggleExpand}
