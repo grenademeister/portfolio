@@ -54,6 +54,7 @@ export const PROJECTS = [
             "Developed a novel diffusion model and flow based model for reconstructing longitudinal MRI data",
         detailedDescription: "Created advanced generative models to reconstruct high-quality longitudinal MRI images from sparse data. The project involved designing and training diffusion and flow-based models, achieving state-of-the-art results in medical imaging tasks.",
         tags: ["Python", "PyTorch", "Medical Imaging", "Diffusion Models"],
+        showOnTop: true,
     },
     {
         title: "Hardware-Aware Sequentialization of CNN Kernels",
@@ -62,6 +63,7 @@ export const PROJECTS = [
             "Converted spatial CNN kernels into time-sequential forms to exploit an RNN-centric AI accelerator",
         detailedDescription: "Developed a novel approach to convert convolutional neural network operations into sequential forms optimized for RNN-based accelerator hardware. This research focused on hardware-aware optimization techniques that significantly improved throughput while maintaining model accuracy.",
         tags: ["C++", "Python", "PyTorch", "AI Acceleration"],
+        showOnTop: false,
     },
     {
         title: "Rainbow DQN Tetris Agent",
@@ -70,6 +72,7 @@ export const PROJECTS = [
             "Designed and trained a Rainbow DQN agent that surpasses human baseline on classic Tetris",
         detailedDescription: "Implemented a reinforcement learning agent using Rainbow DQN techniques (combining multiple DQN improvements) for playing Tetris. The agent incorporates prioritized experience replay, noisy networks for exploration, and distributional Q-learning to model uncertainty in returns.",
         tags: ["Python", "PyTorch", "Reinforcement Learning", "OpenAI Gym"],
+        showOnTop: false,
     },
     {
         title: "Transformer from Scratch on Edge NPU",
@@ -78,6 +81,7 @@ export const PROJECTS = [
             "Implemented a basic transformer architecture, quantized and compiled on Intel NPU",
         detailedDescription: "Built a transformer architecture from scratch with fundamental principles and optimized it for edge deployment. Implemented efficient quantization techniques to enable inference on resource-constrained neural processing units.",
         tags: ["Python", "Edge", "HuggingFace Transformers"],
+        showOnTop: true,
     },
     {
         title: "Analytic Model of Horizontal Brazil Nut Effect",
@@ -86,7 +90,35 @@ export const PROJECTS = [
             "Developed an analytic model explaining the horizontal Brazil nut effect through void filling mechanisms as part of physics graduation research.",
         detailedDescription: "Created a mathematical model to explain the physical phenomenon where larger particles aggregates to the center in heterogeneous granular materials when shaken horizontally. The research focused on void-filling mechanisms and resulted in a predictive model with experimental validation.",
         tags: ["Physics", "Mathematical Modeling"],
+        showOnTop: false,
     },
+    {
+        title: "One-shot object detection with DINOv3",
+        year: 2025,
+        description:
+            "Implemented one-shot object detection and tracking using DINOv3 that can run on laptop CPUs",
+        detailedDescription: "Created a one-shot object detection and tracking system using the DINOv3 model architecture. Implemented using patch similarity techniques and leveraged various method to optimize performance for CPU-only environments.",
+        tags: ["Python", "Edge", "HuggingFace Transformers"],
+        showOnTop: true,
+    },
+    {
+        title: "PokeAgent challenge: long-horizon gameplay agent for Pokemon games",
+        year: 2025,
+        description:
+            "Developed an AI agent capable of playing Pokemon games as part of the NeurIPS 2025 PokeAgent challenge",
+        detailedDescription: "Designed an AI agent that can effectively play Pokemon games by utilizing tool calling, memory management, and planning strategies. The agent didn't need any additional training or ground-truth data. This project was part of DEEPEST research group activities.",
+        tags: ["Python", "Reinforcement Learning", "AI Agents"],
+        showOnTop: true,
+    },
+    {
+        title: "Solar radiance prediction model",
+        year: 2025,
+        description:
+            "Developed a machine learning model to predict solar radiance as part of the POSTECH OIBC challenge",
+        detailedDescription: "Created a model to impute missing solar radiance data using various machine learning techniques. This project was conducted as part of the POSTECH OIBC challenge as a team member.",
+        tags: ["Python", "scikit-learn", "PyTorch", "Machine Learning"],
+        showOnTop: false,
+    }
 ];
 
 export const EXPERIENCE = [
