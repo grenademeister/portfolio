@@ -25,9 +25,13 @@ export default function PortfolioPage() {
         )
         : PROJECTS;
 
+    const sortedProjects = filteredProjects
+        .slice()
+        .sort((a, b) => Number(b.showOnTop) - Number(a.showOnTop));
+
     const visibleProjects = showAllProjects
-        ? filteredProjects
-        : filteredProjects.slice(0, PROJECT_PREVIEW_COUNT);
+        ? sortedProjects
+        : sortedProjects.slice(0, PROJECT_PREVIEW_COUNT);
 
     const toggleSkill = (skill) => {
         setActiveSkills((prev) =>
