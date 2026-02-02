@@ -1,0 +1,33 @@
+# Hyeokgi Kim Portfolio
+
+Summary: Undergraduate ECE student focused on applied machine learning, generative AI, and medical imaging.
+Location: Seoul National University
+Contact: ryan0905@snu.ac.kr
+GitHub: https://github.com/grenademeister
+
+## Primary Pages
+- Minimal HTML portfolio: /
+- Interactive React portfolio: /react.html
+
+## Education
+- Seoul National University — Electrical & Computer Engineering (2024 - Present), GPA 4.17 / 4.3
+- Gyeonggi Science High School for the Gifted — Physics Track (Graduated 2023), GPA 4.27 / 4.3
+
+## Skills
+- AI Research: PyTorch, TensorFlow, HuggingFace Transformers, OpenAI Gym, scikit-learn, MATLAB
+- Software Engineering: Python, C/C++, JavaScript (React), Git, Linux
+
+## Projects
+- Longitudinal MRI reconstruction with Diffusion/Flow Models (2025)
+- Hardware-Aware Sequentialization of CNN Kernels (2025)
+- Rainbow DQN Tetris Agent (2025)
+- Transformer from Scratch on Edge NPU (2024)
+- Analytic Model of Horizontal Brazil Nut Effect (2023)
+- One-shot object detection with DINOv3 (2025)
+- Long-horizon Pokemon gameplay agent (2025)
+- Solar radiance prediction model (2025)
+
+## Experience & Honors
+- Research Intern, LIST, Seoul National University (May 2025 ~ February 2026)
+- Student Member, DEEPEST (Research Group) (Since 2025)
+- STEM National Scholarship, Korea Student Aid Foundation (Since 2024)
