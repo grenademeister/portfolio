@@ -48,12 +48,21 @@ export const SKILLS = {
 
 export const PROJECTS = [
     {
+        title: "Counterfactual lesion synthesis using MRI foundation model",
+        year: 2026,
+        description:
+            "Developed a natural language based counterfactual lesion editing model on top of MRI foundation model",
+        detailedDescription: "Created a natural language based lesion synthesis model by instruction tuning an MRI foundation model then tuning it with synthetic lesion images.",
+        tags: ["Python", "PyTorch", "Medical Imaging", "Diffusion", "NLP", "CV"],
+        showOnTop: true,
+    },
+    {
         title: "Longitudinal MRI reconstruction with Diffusion/Flow Models",
         year: 2025,
         description:
             "Developed a novel diffusion model and flow based model for reconstructing longitudinal MRI data",
         detailedDescription: "Created advanced generative models to reconstruct high-quality longitudinal MRI images from sparse data. The project involved designing and training diffusion and flow-based models, achieving state-of-the-art results in medical imaging tasks.",
-        tags: ["Python", "PyTorch", "Medical Imaging", "Diffusion Models"],
+        tags: ["Python", "PyTorch", "Medical Imaging", "Diffusion", "CV"],
         showOnTop: true,
     },
     {
@@ -62,7 +71,7 @@ export const PROJECTS = [
         description:
             "Converted spatial CNN kernels into time-sequential forms to exploit an RNN-centric AI accelerator",
         detailedDescription: "Developed a novel approach to convert convolutional neural network operations into sequential forms optimized for RNN-based accelerator hardware. This research focused on hardware-aware optimization techniques that significantly improved throughput while maintaining model accuracy.",
-        tags: ["C++", "Python", "PyTorch", "AI Acceleration"],
+        tags: ["C++", "Python", "PyTorch"],
         showOnTop: false,
     },
     {
@@ -71,7 +80,7 @@ export const PROJECTS = [
         description:
             "Designed and trained a Rainbow DQN agent that surpasses human baseline on classic Tetris",
         detailedDescription: "Implemented a reinforcement learning agent using Rainbow DQN techniques (combining multiple DQN improvements) for playing Tetris. The agent incorporates prioritized experience replay, noisy networks for exploration, and distributional Q-learning to model uncertainty in returns.",
-        tags: ["Python", "PyTorch", "Reinforcement Learning", "OpenAI Gym"],
+        tags: ["Python", "PyTorch", "RL", "OpenAI Gym"],
         showOnTop: false,
     },
     {
@@ -98,7 +107,7 @@ export const PROJECTS = [
         description:
             "Implemented one-shot object detection and tracking using DINOv3 that can run on laptop CPUs",
         detailedDescription: "Created a one-shot object detection and tracking system using the DINOv3 model architecture. Implemented using patch similarity techniques and leveraged various method to optimize performance for CPU-only environments.",
-        tags: ["Python", "Edge", "HuggingFace Transformers"],
+        tags: ["Python", "Edge", "HuggingFace Transformers", "CV"],
         showOnTop: true,
     },
     {
@@ -107,7 +116,7 @@ export const PROJECTS = [
         description:
             "Developed an AI agent capable of playing Pokemon games as part of the NeurIPS 2025 PokeAgent challenge",
         detailedDescription: "Designed an AI agent that can effectively play Pokemon games by utilizing tool calling, memory management, and planning strategies. The agent didn't need any additional training or ground-truth data. This project was part of DEEPEST research group activities.",
-        tags: ["Python", "Reinforcement Learning", "AI Agents"],
+        tags: ["Python", "RL", "NLP", "AI Agents"],
         showOnTop: true,
     },
     {
