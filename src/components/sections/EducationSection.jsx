@@ -16,10 +16,10 @@ export function EducationSection({ education }) {
                         key={edu.institution}
                         custom={i}
                         variants={fadeIn}
-                        className="flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-white/90 dark:bg-neutral-800/80 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-transparent shadow-md"
+                        className="flex items-start md:items-center gap-3 sm:gap-6 p-4 sm:p-6 bg-white/90 dark:bg-neutral-800/80 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-transparent shadow-md"
                     >
-                        <div className="flex-shrink-0 p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl text-blue-600 dark:text-blue-500">
-                            {getIcon(edu.icon, { className: "w-5 h-5" })}
+                        <div className="flex-shrink-0 p-2.5 sm:p-4 bg-blue-50 dark:bg-blue-500/10 rounded-xl sm:rounded-2xl text-blue-600 dark:text-blue-500">
+                            {getIcon(edu.icon, { className: "w-4 h-4 sm:w-5 sm:h-5" })}
                         </div>
                         <div className="flex-grow">
                             <h3 className="text-lg sm:text-xl font-medium text-neutral-900 dark:text-white">
