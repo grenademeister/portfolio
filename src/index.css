@@ -6,6 +6,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 /* For specific section targeting with padding for header */
 section[id], header[id], div[id] {
   scroll-margin-top: 80px; /* Increased to ensure enough margin */

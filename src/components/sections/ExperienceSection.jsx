@@ -8,7 +8,7 @@ import { getIcon } from "../../utils/iconMap";
  */
 export function ExperienceSection({ experience }) {
     return (
-        <Section id="experience" className="container mx-auto px-6 py-16">
+        <Section id="experience" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
             <SectionHeading>Experience & Honors</SectionHeading>
             <ul className="space-y-6">
                 {experience.map((exp, i) => (
@@ -16,7 +16,7 @@ export function ExperienceSection({ experience }) {
                         key={exp.role}
                         custom={i}
                         variants={fadeIn}
-                        className="flex items-start gap-4"
+                        className="flex items-start gap-3 sm:gap-4"
                     >
                         <span className="mt-1 text-blue-500 dark:text-blue-400">
                             {getIcon(exp.icon, { className: "w-5 h-5" })}

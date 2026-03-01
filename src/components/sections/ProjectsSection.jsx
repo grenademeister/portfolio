@@ -14,7 +14,7 @@ export function ProjectsSection({
     const toggleLabel = isExpanded ? "Show fewer" : `Show all (${totalProjects})`;
 
     return (
-        <Section id="projects" className="container mx-auto px-6 py-16">
+        <Section id="projects" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
             <SectionHeading>Projects & Research</SectionHeading>
 
             {totalProjects === 0 ? (
@@ -23,7 +23,7 @@ export function ProjectsSection({
                 </p>
             ) : (
                 <>
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {projects.map((project, i) => (
                             <motion.div
                                 key={project.title}
@@ -50,9 +50,9 @@ export function ProjectsSection({
                                 }}
                             >
                                 <Card className="h-full rounded-2xl bg-white/90 dark:bg-neutral-800/80 backdrop-blur-xl border border-gray-200 dark:border-transparent shadow-md hover:shadow-xl transition-all group cursor-pointer">
-                                    <CardContent className="p-6 flex flex-col gap-4 h-full">
+                                    <CardContent className="p-5 sm:p-6 flex flex-col gap-4 h-full">
                                         <header>
-                                            <h3 className="text-xl font-medium leading-snug text-neutral-800 dark:text-neutral-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                            <h3 className="text-lg sm:text-xl font-medium leading-snug text-neutral-800 dark:text-neutral-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                                 {project.title}
                                             </h3>
                                             <span className="text-sm text-neutral-500 dark:text-neutral-400">

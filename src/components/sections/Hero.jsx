@@ -8,14 +8,14 @@ export function Hero({ profile }) {
     return (
         <header id="about" className="relative overflow-hidden">
             <motion.div
-                className="container mx-auto px-6 py-24 flex flex-col items-start gap-4"
+                className="container mx-auto px-4 sm:px-6 py-16 sm:py-24 flex flex-col items-start gap-4"
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0, transition: { duration: 0.8 } }}
             >
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight">
                     {profile.name}
                 </h1>
-                <p className="text-xl md:text-2xl text-blue-400/90">
+                <p className="text-lg sm:text-xl md:text-2xl text-blue-400/90">
                     {profile.tagline}
                 </p>
                 <div className="max-w-2xl">
@@ -55,7 +55,7 @@ export function Hero({ profile }) {
                     </div>
                 </div>
 
-                <div className="flex gap-6 mt-6">
+                <div className="flex gap-4 sm:gap-6 mt-6">
                     <a
                         href={profile.github}
                         target="_blank"
@@ -83,7 +83,7 @@ export function Hero({ profile }) {
                     </a>
                 </div>
 
-                <div className="flex gap-4 mt-8">
+                <div className="flex flex-wrap gap-3 sm:gap-4 mt-8">
                     <motion.a
                         href={cvFile}
                         download

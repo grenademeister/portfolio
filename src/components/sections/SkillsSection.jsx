@@ -8,12 +8,12 @@ import { getIcon } from "../../utils/iconMap";
  */
 export function SkillsSection({ skills, activeSkills, toggleSkill, onClearFilters }) {
     return (
-        <Section id="skills" className="container mx-auto px-6 py-16">
+        <Section id="skills" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
             <SectionHeading>Core Skills</SectionHeading>
             <div className="space-y-8">
                 {Object.entries(skills).map(([category, skillsList], categoryIndex) => (
                     <div key={category} className="space-y-4">
-                        <h3 className="text-xl font-medium text-neutral-800 dark:text-neutral-200">
+                        <h3 className="text-lg sm:text-xl font-medium text-neutral-800 dark:text-neutral-200">
                             {category}
                         </h3>
                         <ul className="flex flex-wrap gap-3">

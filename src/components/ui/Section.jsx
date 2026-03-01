@@ -24,7 +24,7 @@ export function Section({ children, className, id }) {
  */
 export function SectionHeading({ children }) {
     return (
-        <h2 className="text-3xl font-semibold mb-8 text-neutral-800 dark:text-white">
+        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 text-neutral-800 dark:text-white">
             {children}
         </h2>
     );
