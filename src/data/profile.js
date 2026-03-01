@@ -3,6 +3,7 @@ export const PROFILE = {
     tagline: "Undergraduate ECE Student",
     email: "ryan0905@snu.ac.kr",
     github: "https://github.com/grenademeister",
+    linkedin: "https://www.linkedin.com/in/%ED%98%81%EA%B8%B0-%EA%B9%80-582a14340/",
     summary:
         "AI enthusiast · Generative Models · Medical Imaging",
     description:

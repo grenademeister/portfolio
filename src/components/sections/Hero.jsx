@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import { Github, Mail, Linkedin, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import cvFile from "/cv.pdf";
 
@@ -64,6 +64,15 @@ export function Hero({ profile }) {
                         aria-label="GitHub Profile"
                     >
                         <Github className="w-6 h-6" />
+                    </a>
+                    <a
+                        href={profile.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:opacity-80 transition-opacity"
+                        aria-label="LinkedIn Profile"
+                    >
+                        <Linkedin className="w-6 h-6" />
                     </a>
                     <a
                         href={`mailto:${profile.email}`}
