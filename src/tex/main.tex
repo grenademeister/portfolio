@@ -1,0 +1,77 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt}
+
+\titleformat{\section}
+  {\large\bfseries}
+  {}
+  {0em}
+  {}
+  [\titlerule]
+
+\newcommand{\cvitem}[2]{\textbf{#1}\hfill #2\\}
+\newcommand{\cvsubitem}[1]{\hspace*{1.2em}#1\\}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\textbf{Hyeokgi Kim}}\\[4pt]
+  \href{mailto:ryan0905@snu.ac.kr}{ryan0905@snu.ac.kr}
+  \,|\, \href{https://github.com/grenademeister}{github.com/grenademeister}
+  \,|\, \href{https://www.linkedin.com/in/%ED%98%81%EA%B8%B0-%EA%B9%80-582a14340/}{linkedin.com/in/hyeokgi-kim}
+\end{center}
+
+\section*{Summary}
+Undergraduate student majoring in Electrical and Computer Engineering with a strong interest in deep learning and
+medical imaging. Experienced in developing AI agents and
+neural network models using Python and PyTorch with hands-on projects such as MRI foundation models
+and transformer-based models.
+
+\section*{Education}
+\textbf{Seoul National University} \hfill 2024 -- Present\\
+Electrical \& Computer Engineering\\
+GPA: 4.17 / 4.3\\[6pt]
+\textbf{Gyeonggi Science High School for the Gifted} \hfill Graduated 2023\\
+GPA: 4.27 / 4.3
+
+
+\section*{Research \& Topics}
+\cvitem{Counterfactual lesion synthesis using MRI foundation model}{2026}
+\cvsubitem{- Research Project at SNU LIST}
+\cvitem{Long-horizon Pokemon gameplay agent}{2025}
+\cvsubitem{- NeurIPS 2025 PokeAgent Challenge}
+\cvitem{Longitudinal brain MRI reconstruction with Diffusion/Flow model}{2025}
+\cvsubitem{- Research Project at SNU LIST}
+
+\cvitem{Rainbow DQN-based agent for a Tetris-playing AI}{2025}
+\cvitem{Analytic model of horizontal Brazil nut effect by void filling}{2023}
+\cvsubitem{- Graduation research in physics}
+
+\section*{Awards \& Professional Experience}
+\cvitem{Research Intern, LIST, Seoul National University}{May 2025 -- Feb 2026}
+\cvsubitem{- Undergraduate research intern advised by Jongho Lee}
+\cvitem{KSAF National Scholarship for Outstanding STEM Students}{Since 2024}
+
+\cvitem{PokeAgent Challenge at NeurIPS 2025}{Nov 2025}
+\cvsubitem{- Track 2 -- Speedrunning, Long-horizon gameplay. Judge's Choice Award}
+\cvitem{POSTECH OIBC Challenge 2025}{Nov 2025}
+\cvsubitem{- Solar radiance prediction track. Third prize}
+
+\cvitem{Student Member, Deepest (research group)}{2025 -- 2026}
+
+\section*{Technical Skills}
+\begin{itemize}
+  \item \textbf{Programming Languages:} Python, C++, JavaScript, Rust
+  \item \textbf{AI/ML Frameworks:}
+    PyTorch, HuggingFace Transformers/Diffusers, OpenAI Gym
+\end{itemize}
+
+\end{document}
