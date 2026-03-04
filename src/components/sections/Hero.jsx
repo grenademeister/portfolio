@@ -95,11 +95,13 @@ export function Hero({ profile }) {
                     </motion.a>
                     <motion.a
                         href={`${import.meta.env.BASE_URL}bare.html`}
+                        title="I hate React. Give me bare HTML."
+                        aria-label="I hate React. Give me bare HTML."
                         className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        Bare HTML
+                        Hate React? Bare HTML
                     </motion.a>
                 </div>
             </motion.div>
