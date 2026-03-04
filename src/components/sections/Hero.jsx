@@ -93,6 +93,14 @@ export function Hero({ profile }) {
                     >
                         Download CV
                     </motion.a>
+                    <motion.a
+                        href={`${import.meta.env.BASE_URL}bare.html`}
+                        className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        Bare HTML
+                    </motion.a>
                 </div>
             </motion.div>
 

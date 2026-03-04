@@ -10,6 +10,7 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'index.html'),
         app: path.resolve(__dirname, 'app.html'),
+        bare: path.resolve(__dirname, 'bare.html'),
       },
     },
   },
