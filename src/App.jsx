@@ -6,9 +6,10 @@ import { SkillsSection } from "./components/sections/SkillsSection";
 import { ProjectsSection } from "./components/sections/ProjectsSection";
 import { ExperienceSection } from "./components/sections/ExperienceSection";
 import { ContactSection } from "./components/sections/ContactSection";
+import { PublicationsSection } from "./components/sections/PublicationsSection";
 import { ProjectModal } from "./components/modals/ProjectDetailModal";
 import { Footer } from "./components/layout/Footer";
-import { PROFILE, EDUCATION, SKILLS, PROJECTS, EXPERIENCE } from "./data/profile";
+import { PROFILE, EDUCATION, SKILLS, PROJECTS, EXPERIENCE, PUBLICATIONS } from "./data/profile";
 import { useActiveSectionObserver, useTheme } from "./hooks";
 
 export default function PortfolioPage() {
@@ -62,6 +63,8 @@ export default function PortfolioPage() {
             <EducationSection education={EDUCATION} />
 
             <ExperienceSection experience={EXPERIENCE} />
+
+            <PublicationsSection publications={PUBLICATIONS} />
 
             <SkillsSection
                 skills={SKILLS}

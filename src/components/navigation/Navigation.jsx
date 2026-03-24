@@ -13,6 +13,7 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
         { id: "about", label: "About" },
         { id: "education", label: "Education" },
         { id: "experience", label: "Experience" },
+        { id: "publications", label: "Publications" },
         { id: "skills", label: "Skills" },
         { id: "projects", label: "Projects" },
         { id: "contact", label: "Contact" }

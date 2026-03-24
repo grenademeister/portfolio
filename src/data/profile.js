@@ -131,6 +131,56 @@ export const PROJECTS = [
     }
 ];
 
+export const PUBLICATIONS = [
+    {
+        title: "The PokeAgent Challenge: Competitive and Long-Context Learning at Scale",
+        year: 2026,
+        venue: "arXiv preprint · NeurIPS 2025 Competition Track",
+        shortAuthors: "Seth Karten, Jake Grigsby, Tersoo Upaa Jr, Junik Bae, Seonghun Hong, Hyunyoung Jeong, Jaeyoon Jung, Kun Kerdthaisong, Gyungbo Kim, Hyeokgi Kim, et al.",
+        authors: [
+            "Seth Karten",
+            "Jake Grigsby",
+            "Tersoo Upaa Jr",
+            "Junik Bae",
+            "Seonghun Hong",
+            "Hyunyoung Jeong",
+            "Jaeyoon Jung",
+            "Kun Kerdthaisong",
+            "Gyungbo Kim",
+            "Hyeokgi Kim",
+            "Yujin Kim",
+            "Eunju Kwon",
+            "Dongyu Liu",
+            "Patrick Mariglia",
+            "Sangyeon Park",
+            "Benedikt Schink",
+            "Xianwei Shi",
+            "Anthony Sistilli",
+            "Joseph Twin",
+            "Arian Urdu",
+            "Matin Urdu",
+            "Qiao Wang",
+            "Ling Wu",
+            "Wenli Zhang",
+            "Kunsheng Zhou",
+            "Stephanie Milani",
+            "Kiran Vodrahalli",
+            "Amy Zhang",
+            "Fei Fang",
+            "Yuke Zhu",
+            "Chi Jin"
+        ],
+        summary:
+            "Large-scale benchmark paper for Pokemon-based decision making, covering competitive battling and long-horizon RPG speedrunning.",
+        abstract:
+            "The paper introduces the PokeAgent Challenge, a benchmark designed to stress partial observability, strategic reasoning, and long-horizon planning through two tracks: competitive battling and RPG speedrunning. It pairs large-scale datasets and evaluation infrastructure with baseline systems spanning heuristic, reinforcement learning, and language-model approaches.",
+        tags: ["Benchmark", "RL", "LLM Agents", "Decision Making"],
+        arxivUrl: "https://arxiv.org/abs/2603.15563",
+        pdfUrl: "https://arxiv.org/pdf/2603.15563",
+        doiUrl: "https://doi.org/10.48550/arXiv.2603.15563"
+    }
+];
+
 export const EXPERIENCE = [
     {
         role: "Research Intern",
