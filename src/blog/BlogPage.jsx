@@ -14,6 +14,22 @@ function getSlugFromHash() {
     return window.location.hash.replace(/^#\/?/, "").trim();
 }
 
+function getSearchQueryFromUrl() {
+    return new URLSearchParams(window.location.search).get("q")?.trim() || "";
+}
+
+function setSearchQueryInUrl(query) {
+    const url = new URL(window.location.href);
+
+    if (query) {
+        url.searchParams.set("q", query);
+    } else {
+        url.searchParams.delete("q");
+    }
+
+    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
 function formatDate(date) {
     if (!date) {
         return "Undated";
@@ -91,6 +107,8 @@ function BlogPostCard({ post }) {
 function BlogIndex() {
     const [posts, setPosts] = useState([]);
     const [status, setStatus] = useState("loading");
+    const [searchInput, setSearchInput] = useState(() => getSearchQueryFromUrl());
+    const [activeQuery, setActiveQuery] = useState(() => getSearchQueryFromUrl());
 
     useEffect(() => {
         const controller = new AbortController();
@@ -99,7 +117,7 @@ function BlogIndex() {
             setStatus("loading");
 
             try {
-                const data = await fetchBlogPosts(controller.signal);
+                const data = await fetchBlogPosts(controller.signal, activeQuery);
                 setPosts(data);
                 setStatus("success");
             } catch (error) {
@@ -117,7 +135,33 @@ function BlogIndex() {
         return () => {
             controller.abort();
         };
+    }, [activeQuery]);
+
+    useEffect(() => {
+        const handlePopState = () => {
+            const nextQuery = getSearchQueryFromUrl();
+            setSearchInput(nextQuery);
+            setActiveQuery(nextQuery);
+        };
+
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
     }, []);
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        const nextQuery = searchInput.trim();
+        setSearchQueryInUrl(nextQuery);
+        setActiveQuery(nextQuery);
+    };
+
+    const handleSearchClear = () => {
+        setSearchInput("");
+        setSearchQueryInUrl("");
+        setActiveQuery("");
+    };
 
     return (
         <section className="container mx-auto px-4 sm:px-6 py-16 sm:py-24">
@@ -140,15 +184,50 @@ function BlogIndex() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1 } }}
             >
+                <form
+                    onSubmit={handleSearchSubmit}
+                    className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end"
+                >
+                    <label className="min-w-0 flex-1">
+                        <span className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+                            Search posts
+                        </span>
+                        <input
+                            type="search"
+                            value={searchInput}
+                            onChange={(event) => setSearchInput(event.target.value)}
+                            placeholder="Search titles, summaries, or tags"
+                            className="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-3 text-base text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-blue-500 focus:ring-0 dark:border-neutral-700 dark:text-neutral-100 dark:placeholder:text-neutral-500"
+                            aria-label="Search blog posts"
+                        />
+                    </label>
+                    <div className="flex gap-3">
+                        <button
+                            type="submit"
+                            className="rounded-full bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
+                        >
+                            Search
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSearchClear}
+                            className="rounded-full border border-gray-300 px-5 py-3 text-sm font-medium text-neutral-600 transition hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </form>
+
                 {status === "success" && posts.length > 0 ? (
                     <div className="mb-6 text-sm text-neutral-500 dark:text-neutral-400">
-                        {posts.length} published post{posts.length > 1 ? "s" : ""}
+                        {posts.length} result{posts.length > 1 ? "s" : ""}
+                        {activeQuery ? ` for "${activeQuery}"` : ` across all published posts`}
                     </div>
                 ) : null}
 
                 {status === "loading" ? (
                     <div className="rounded-3xl border border-dashed border-gray-300 px-6 py-16 text-center text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
-                        Loading published posts...
+                        {activeQuery ? `Searching for "${activeQuery}"...` : "Loading published posts..."}
                     </div>
                 ) : null}
 
@@ -160,7 +239,9 @@ function BlogIndex() {
 
                 {status === "success" && posts.length === 0 ? (
                     <div className="rounded-3xl border border-dashed border-gray-300 px-6 py-16 text-center text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
-                        No published posts yet.
+                        {activeQuery
+                            ? `No posts matched "${activeQuery}".`
+                            : "No published posts yet."}
                     </div>
                 ) : null}
 
@@ -242,25 +323,9 @@ function BlogPostPage({ slug }) {
                 {status === "success" && post ? (
                     <article className="mt-8">
                         <header className="border-b border-gray-200 pb-8 dark:border-neutral-800">
-                            <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
-                                <span>{formatDate(post.date)}</span>
-                                {post.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700 dark:bg-blue-500/10 dark:text-blue-200"
-                                    >
-                                        #{tag}
-                                    </span>
-                                ))}
-                            </div>
                             <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
                                 {post.title}
                             </h1>
-                            {post.summary ? (
-                                <p className="mt-4 text-lg leading-8 text-neutral-600 dark:text-neutral-300">
-                                    {post.summary}
-                                </p>
-                            ) : null}
                         </header>
 
                         <div

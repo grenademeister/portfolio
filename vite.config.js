@@ -6,6 +6,7 @@ export default defineConfig({
   base: '/portfolio/',
   plugins: [react()],
   server: {
+    allowedHosts: ['unpresiding-vagariously-telma.ngrok-free.dev'],
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8000',

@@ -3,8 +3,12 @@ const BLOG_API_URL = import.meta.env.VITE_BLOG_API_URL
 
 export { BLOG_API_URL };
 
-export async function fetchBlogPosts(signal) {
-    const response = await fetch(`${BLOG_API_URL}/posts`, { signal });
+export async function fetchBlogPosts(signal, query = "") {
+    const trimmedQuery = query.trim();
+    const endpoint = trimmedQuery
+        ? `${BLOG_API_URL}/posts/search?q=${encodeURIComponent(trimmedQuery)}`
+        : `${BLOG_API_URL}/posts`;
+    const response = await fetch(endpoint, { signal });
 
     if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
