@@ -5,7 +5,7 @@ import { Footer } from "../components/layout/Footer";
 import { Card, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { PROFILE } from "../data/profile";
 import { useTheme } from "../hooks";
-import { BLOG_API_URL, fetchBlogPost, fetchBlogPosts } from "./api";
+import { BLOG_API_URL, fetchBlogPost, fetchBlogPosts, normalizePostHtml } from "./api";
 
 const HOME_PATH = `${import.meta.env.BASE_URL}`;
 const BLOG_HOME_PATH = `${import.meta.env.BASE_URL}blog/`;
@@ -288,6 +288,8 @@ function BlogPostPage({ slug }) {
         };
     }, [slug]);
 
+    const normalizedHtml = post ? normalizePostHtml(post.html) : "";
+
     return (
         <section className="container mx-auto px-4 sm:px-6 py-16 sm:py-24">
             <motion.div
@@ -329,8 +331,8 @@ function BlogPostPage({ slug }) {
                         </header>
 
                         <div
-                            className="mt-10 text-neutral-700 dark:text-neutral-200 [&_a]:text-blue-500 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-blue-400 [&_h1]:mt-12 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-2 [&_blockquote]:mt-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-200 [&_blockquote]:pl-4 [&_blockquote]:italic dark:[&_blockquote]:border-blue-900"
-                            dangerouslySetInnerHTML={{ __html: post.html }}
+                            className="mt-10 text-neutral-700 dark:text-neutral-200 [&_a]:text-blue-500 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-blue-400 [&_h1]:mt-12 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-2 [&_blockquote]:mt-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:mt-8 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-black/5 [&_img]:shadow-lg dark:[&_blockquote]:border-blue-900 dark:[&_img]:border-white/10"
+                            dangerouslySetInnerHTML={{ __html: normalizedHtml }}
                         />
                     </article>
                 ) : null}
