@@ -6,10 +6,17 @@ import { scrollToSection } from "../../utils";
 /**
  * Navigation component with theme toggle and section navigation
  */
-export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
+export function Navigation({
+    profileName,
+    theme,
+    toggleTheme,
+    activeSection,
+    navItems,
+    secondaryLinks = []
+}) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const navItems = [
+    const defaultNavItems = [
         { id: "about", label: "About" },
         { id: "education", label: "Education" },
         { id: "experience", label: "Experience" },
@@ -18,6 +25,7 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
         { id: "projects", label: "Projects" },
         { id: "contact", label: "Contact" }
     ];
+    const items = navItems ?? defaultNavItems;
 
     const handleNavClick = (id) => {
         scrollToSection(`#${id}`);
@@ -77,7 +85,7 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
 
                 <div className="hidden md:flex items-center">
                     <ul className="flex gap-6 mr-4">
-                        {navItems.map(({ id, label }) => (
+                        {items.map(({ id, label }) => (
                             <li key={id}>
                                 <button
                                     onClick={() => scrollToSection(`#${id}`)}
@@ -89,6 +97,17 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
                                 >
                                     {label}
                                 </button>
+                            </li>
+                        ))}
+                        {secondaryLinks.map(({ href, label }) => (
+                            <li key={href}>
+                                <a
+                                    href={href}
+                                    className="text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70 rounded-md px-1 hover:text-blue-400"
+                                    aria-label={`Navigate to ${label} page`}
+                                >
+                                    {label}
+                                </a>
                             </li>
                         ))}
                     </ul>
@@ -130,7 +149,7 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
                         transition={{ duration: 0.2, ease: "easeOut" }}
                     >
                         <ul className="container mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1">
-                            {navItems.map(({ id, label }) => (
+                            {items.map(({ id, label }) => (
                                 <li key={id}>
                                     <button
                                         onClick={() => handleNavClick(id)}
@@ -142,6 +161,18 @@ export function Navigation({ profileName, theme, toggleTheme, activeSection }) {
                                     >
                                         {label}
                                     </button>
+                                </li>
+                            ))}
+                            {secondaryLinks.map(({ href, label }) => (
+                                <li key={href}>
+                                    <a
+                                        href={href}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="block w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
+                                        aria-label={`Navigate to ${label} page`}
+                                    >
+                                        {label}
+                                    </a>
                                 </li>
                             ))}
                             <li className="pt-1">

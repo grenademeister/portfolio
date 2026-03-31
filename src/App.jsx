@@ -56,6 +56,9 @@ export default function PortfolioPage() {
                 theme={theme}
                 toggleTheme={toggleTheme}
                 activeSection={activeSection}
+                secondaryLinks={[
+                    { href: `${import.meta.env.BASE_URL}blog/`, label: "Blog" }
+                ]}
             />
 
             <Hero profile={PROFILE} />
