@@ -1,4 +1,5 @@
-const BLOG_API_URL = "http://127.0.0.1:8000";
+const BLOG_API_URL = import.meta.env.VITE_BLOG_API_URL
+    || (import.meta.env.DEV ? "/api" : "http://127.0.0.1:8000");
 
 export { BLOG_API_URL };
 
