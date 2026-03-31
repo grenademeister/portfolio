@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "../components/navigation/Navigation";
 import { Footer } from "../components/layout/Footer";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { PROFILE } from "../data/profile";
 import { useTheme } from "../hooks";
+import { BLOG_API_URL, fetchBlogPosts } from "./api";
 
-const BLOG_API_URL = "http://127.0.0.1:8000";
 const HOME_PATH = `${import.meta.env.BASE_URL}`;
 
 function formatDate(date) {
@@ -47,9 +47,6 @@ function BlogPostCard({ post }) {
                     </CardDescription>
                 </div>
             </CardHeader>
-            <CardContent className="pt-0">
-                <p className="text-sm text-neutral-400 dark:text-neutral-500">Slug: {post.slug}</p>
-            </CardContent>
         </Card>
     );
 }
@@ -60,26 +57,17 @@ export function BlogPage() {
     const [status, setStatus] = useState("loading");
 
     useEffect(() => {
-        let cancelled = false;
+        const controller = new AbortController();
 
         async function loadPosts() {
             setStatus("loading");
 
             try {
-                const response = await fetch(`${BLOG_API_URL}/posts`);
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (cancelled) {
-                    return;
-                }
-
-                setPosts(Array.isArray(data) ? data : []);
+                const data = await fetchBlogPosts(controller.signal);
+                setPosts(data);
                 setStatus("success");
             } catch (error) {
-                if (cancelled) {
+                if (error.name === "AbortError") {
                     return;
                 }
 
@@ -91,7 +79,7 @@ export function BlogPage() {
 
         loadPosts();
         return () => {
-            cancelled = true;
+            controller.abort();
         };
     }, []);
 
@@ -129,6 +117,12 @@ export function BlogPage() {
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1 } }}
                     >
+                        {status === "success" && posts.length > 0 ? (
+                            <div className="mb-6 text-sm text-neutral-500 dark:text-neutral-400">
+                                {posts.length} published post{posts.length > 1 ? "s" : ""}
+                            </div>
+                        ) : null}
+
                         {status === "loading" ? (
                             <div className="rounded-3xl border border-dashed border-gray-300 px-6 py-16 text-center text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
                                 Loading published posts...
