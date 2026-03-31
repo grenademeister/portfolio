@@ -52,7 +52,7 @@ function BlogShell({ theme, toggleTheme, children }) {
                 activeSection=""
                 navItems={[]}
                 secondaryLinks={[
-                    { href: HOME_PATH, label: "Portfolio" },
+                    { href: HOME_PATH, label: "About me" },
                     { href: BLOG_HOME_PATH, label: "All posts" }
                 ]}
             />
@@ -172,10 +172,10 @@ function BlogIndex() {
             >
                 <p className="text-sm font-medium uppercase tracking-[0.25em] text-blue-500">Blog</p>
                 <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                    Notes, experiments, and field logs.
+                    Life Logs
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-300 sm:text-lg">
-                    A minimal public index of published posts from the Obsidian-backed FastAPI service.
+                    Selected, published posts from my Obsidian vault.
                 </p>
             </motion.div>
 
@@ -189,9 +189,6 @@ function BlogIndex() {
                     className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end"
                 >
                     <label className="min-w-0 flex-1">
-                        <span className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-                            Search posts
-                        </span>
                         <input
                             type="search"
                             value={searchInput}
