@@ -1,5 +1,5 @@
 const BLOG_API_URL = import.meta.env.VITE_BLOG_API_URL
-    || "https://api.grenademeister.qzz.io";
+    || (import.meta.env.DEV ? "/api" : "https://api.grenademeister.qzz.io");
 
 export { BLOG_API_URL };
 
@@ -85,6 +85,44 @@ export async function fetchBlogPost(slug, signal) {
 
     if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return response.json();
+}
+
+export async function recordBlogPostView(slug, signal) {
+    const response = await fetch(`${BLOG_API_URL}/posts/${slug}/view`, {
+        method: "POST",
+        signal
+    });
+
+    if (response.status === 404) {
+        return null;
+    }
+
+    if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return response.json();
+}
+
+export async function createBlogComment(slug, payload) {
+    const response = await fetch(`${BLOG_API_URL}/posts/${slug}/comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    if (response.status === 404) {
+        return null;
+    }
+
+    if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.detail || `Request failed with status ${response.status}`);
     }
 
     return response.json();

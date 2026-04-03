@@ -5,10 +5,18 @@ import { Footer } from "../components/layout/Footer";
 import { Card, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { PROFILE } from "../data/profile";
 import { useTheme } from "../hooks";
-import { BLOG_API_URL, fetchBlogPost, fetchBlogPosts, normalizePostHtml } from "./api";
+import {
+    BLOG_API_URL,
+    createBlogComment,
+    fetchBlogPost,
+    fetchBlogPosts,
+    normalizePostHtml,
+    recordBlogPostView
+} from "./api";
 
 const HOME_PATH = `${import.meta.env.BASE_URL}`;
 const BLOG_HOME_PATH = `${import.meta.env.BASE_URL}blog/`;
+const viewedPostKeys = new Set();
 
 function getSlugFromHash() {
     return window.location.hash.replace(/^#\/?/, "").trim();
@@ -40,6 +48,10 @@ function formatDate(date) {
         month: "short",
         day: "numeric"
     }).format(new Date(`${date}T00:00:00`));
+}
+
+function formatCountLabel(count, singular, plural = `${singular}s`) {
+    return `${count} ${count === 1 ? singular : plural}`;
 }
 
 function BlogShell({ theme, toggleTheme, children }) {
@@ -77,6 +89,7 @@ function BlogPostCard({ post }) {
                 <CardHeader className="space-y-4">
                     <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
                         <span>{formatDate(post.date)}</span>
+                        <span>{formatCountLabel(post.view_count || 0, "view")}</span>
                         {post.tags.length ? (
                             <div className="flex flex-wrap gap-2">
                                 {post.tags.map((tag) => (
@@ -257,6 +270,17 @@ function BlogIndex() {
 function BlogPostPage({ slug }) {
     const [post, setPost] = useState(null);
     const [status, setStatus] = useState("loading");
+    const [commentAuthor, setCommentAuthor] = useState("");
+    const [commentBody, setCommentBody] = useState("");
+    const [commentStatus, setCommentStatus] = useState("idle");
+    const [commentError, setCommentError] = useState("");
+
+    useEffect(() => {
+        setCommentAuthor("");
+        setCommentBody("");
+        setCommentStatus("idle");
+        setCommentError("");
+    }, [slug]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -285,7 +309,78 @@ function BlogPostPage({ slug }) {
         };
     }, [slug]);
 
+    useEffect(() => {
+        if (!post) {
+            return;
+        }
+
+        const viewKey = `${window.location.pathname}#/${slug}`;
+        if (viewedPostKeys.has(viewKey)) {
+            return;
+        }
+        viewedPostKeys.add(viewKey);
+
+        const controller = new AbortController();
+
+        async function sendView() {
+            try {
+                const data = await recordBlogPostView(slug, controller.signal);
+                if (data?.view_count != null) {
+                    setPost((currentPost) => (
+                        currentPost ? { ...currentPost, view_count: data.view_count } : currentPost
+                    ));
+                }
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    console.error("Failed to record blog post view", error);
+                }
+            }
+        }
+
+        sendView();
+        return () => {
+            controller.abort();
+        };
+    }, [post, slug]);
+
     const normalizedHtml = post ? normalizePostHtml(post.html) : "";
+
+    const handleCommentSubmit = async (event) => {
+        event.preventDefault();
+
+        const authorName = commentAuthor.trim();
+        const body = commentBody.trim();
+        if (!authorName || !body) {
+            setCommentError("Name and comment are required.");
+            setCommentStatus("error");
+            return;
+        }
+
+        setCommentStatus("submitting");
+        setCommentError("");
+
+        try {
+            const createdComment = await createBlogComment(slug, { author_name: authorName, body });
+            if (!createdComment) {
+                setCommentStatus("error");
+                setCommentError("Post not found.");
+                return;
+            }
+
+            setPost((currentPost) => (
+                currentPost
+                    ? { ...currentPost, comments: [...(currentPost.comments || []), createdComment] }
+                    : currentPost
+            ));
+            setCommentAuthor("");
+            setCommentBody("");
+            setCommentStatus("success");
+        } catch (error) {
+            console.error("Failed to create comment", error);
+            setCommentStatus("error");
+            setCommentError(error.message || "Could not submit comment.");
+        }
+    };
 
     return (
         <section className="container mx-auto px-4 sm:px-6 py-16 sm:py-24">
@@ -322,6 +417,11 @@ function BlogPostPage({ slug }) {
                 {status === "success" && post ? (
                     <article className="mt-8">
                         <header className="border-b border-gray-200 pb-8 dark:border-neutral-800">
+                            <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
+                                <span>{formatDate(post.date)}</span>
+                                <span>{formatCountLabel(post.view_count || 0, "view")}</span>
+                                <span>{formatCountLabel(post.comments?.length || 0, "comment")}</span>
+                            </div>
                             <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
                                 {post.title}
                             </h1>
@@ -331,6 +431,97 @@ function BlogPostPage({ slug }) {
                             className="mt-10 text-neutral-700 dark:text-neutral-200 [&_a]:text-blue-500 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-blue-400 [&_h1]:mt-12 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-2 [&_blockquote]:mt-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:mt-8 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-black/5 [&_img]:shadow-lg dark:[&_blockquote]:border-blue-900 dark:[&_img]:border-white/10"
                             dangerouslySetInnerHTML={{ __html: normalizedHtml }}
                         />
+
+                        <section className="mt-16 border-t border-gray-200 pt-10 dark:border-neutral-800">
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                                <h2 className="text-2xl font-semibold tracking-tight">
+                                    Comments
+                                </h2>
+                                <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                                    {formatCountLabel(post.comments?.length || 0, "comment")}
+                                </p>
+                            </div>
+
+                            <form
+                                onSubmit={handleCommentSubmit}
+                                className="mt-8 space-y-4 rounded-3xl border border-gray-200 bg-white/80 p-6 dark:border-neutral-800 dark:bg-neutral-900/70"
+                            >
+                                <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)]">
+                                    <label className="block">
+                                        <span className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
+                                            Name
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={commentAuthor}
+                                            onChange={(event) => setCommentAuthor(event.target.value)}
+                                            className="w-full rounded-2xl border border-gray-300 bg-white px-4 py-3 text-neutral-800 outline-none transition focus:border-blue-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+                                            placeholder="Your name"
+                                        />
+                                    </label>
+                                </div>
+                                <label className="block">
+                                    <span className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
+                                        Comment
+                                    </span>
+                                    <textarea
+                                        value={commentBody}
+                                        onChange={(event) => setCommentBody(event.target.value)}
+                                        rows={5}
+                                        className="w-full rounded-2xl border border-gray-300 bg-white px-4 py-3 text-neutral-800 outline-none transition focus:border-blue-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+                                        placeholder="Write a comment"
+                                    />
+                                </label>
+                                {commentStatus === "error" && commentError ? (
+                                    <p className="text-sm text-red-600 dark:text-red-300">
+                                        {commentError}
+                                    </p>
+                                ) : null}
+                                {commentStatus === "success" ? (
+                                    <p className="text-sm text-emerald-600 dark:text-emerald-300">
+                                        Comment posted.
+                                    </p>
+                                ) : null}
+                                <button
+                                    type="submit"
+                                    disabled={commentStatus === "submitting"}
+                                    className="rounded-full bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    {commentStatus === "submitting" ? "Posting..." : "Post comment"}
+                                </button>
+                            </form>
+
+                            <div className="mt-8 space-y-4">
+                                {post.comments?.length ? post.comments.map((comment) => (
+                                    <div
+                                        key={comment.id}
+                                        className="rounded-3xl border border-gray-200 bg-white/80 p-6 dark:border-neutral-800 dark:bg-neutral-900/70"
+                                    >
+                                        <div className="flex flex-wrap items-center justify-between gap-3">
+                                            <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                                                {comment.author_name}
+                                            </p>
+                                            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                                                {new Intl.DateTimeFormat("en", {
+                                                    year: "numeric",
+                                                    month: "short",
+                                                    day: "numeric",
+                                                    hour: "numeric",
+                                                    minute: "2-digit"
+                                                }).format(new Date(comment.created_at))}
+                                            </p>
+                                        </div>
+                                        <p className="mt-4 whitespace-pre-wrap text-base leading-7 text-neutral-700 dark:text-neutral-200">
+                                            {comment.body}
+                                        </p>
+                                    </div>
+                                )) : (
+                                    <div className="rounded-3xl border border-dashed border-gray-300 px-6 py-12 text-center text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
+                                        No comments yet.
+                                    </div>
+                                )}
+                            </div>
+                        </section>
                     </article>
                 ) : null}
             </motion.div>
