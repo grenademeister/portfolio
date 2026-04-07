@@ -414,7 +414,7 @@ function BlogPostPage({ slug }) {
                 ) : null}
 
                 {status === "success" && post ? (
-                    <article className="surface-card mt-8 rounded-[2rem] p-6 sm:p-8 lg:p-10">
+                    <article className="mx-auto mt-8 max-w-3xl">
                         <header className="border-b pb-8" style={{ borderColor: "var(--border)" }}>
                             <div className="flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--text-soft)" }}>
                                 <span>{formatDate(post.date)}</span>
