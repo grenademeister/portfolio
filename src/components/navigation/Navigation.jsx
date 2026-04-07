@@ -9,7 +9,8 @@ export function Navigation({
     toggleTheme,
     activeSection,
     navItems,
-    secondaryLinks = []
+    secondaryLinks = [],
+    homeHref = `${import.meta.env.BASE_URL}`
 }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -49,7 +50,6 @@ export function Navigation({
     const handleNavClick = (id) => {
         scrollToSection(`#${id}`);
         setIsMenuOpen(false);
-        setIsDesktopNavOpen(false);
     };
 
     useEffect(() => {
@@ -104,87 +104,85 @@ export function Navigation({
                     backdropFilter: isScrolled ? "blur(18px)" : "none"
                 }}
             >
-                <button
-                    type="button"
-                    onClick={() => scrollToSection("#about")}
+                <a
+                    href={homeHref}
                     className="font-editorial text-lg font-semibold tracking-tight"
                     aria-label={`Navigate to ${profileName} home`}
                 >
                     {profileName}
-                </button>
+                </a>
 
-                <div className="hidden items-center gap-3 md:flex">
-                    <div
-                        className="relative"
-                        onMouseEnter={openDesktopNav}
-                        onMouseLeave={closeDesktopNav}
-                        onFocusCapture={openDesktopNav}
-                        onBlurCapture={(event) => {
-                            if (!event.currentTarget.contains(event.relatedTarget)) {
-                                closeDesktopNav();
-                            }
-                        }}
-                    >
-                        <button
-                            type="button"
-                            className="ring-button gap-2 px-4"
-                            aria-haspopup="menu"
-                            aria-expanded={isDesktopNavOpen}
-                            aria-controls="desktop-navigation-menu"
-                            onClick={() => setIsDesktopNavOpen((prev) => !prev)}
+                <div className="hidden items-center gap-6 lg:flex">
+                    {items.length > 0 && (
+                        <div
+                            className="relative"
+                            onMouseEnter={openDesktopNav}
+                            onMouseLeave={closeDesktopNav}
+                            onFocusCapture={openDesktopNav}
+                            onBlurCapture={(event) => {
+                                if (!event.currentTarget.contains(event.relatedTarget)) {
+                                    closeDesktopNav();
+                                }
+                            }}
                         >
-                            <span>Navigate</span>
-                            <ChevronDown className={`h-4 w-4 transition-transform ${isDesktopNavOpen ? "rotate-180" : ""}`} />
-                        </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center gap-1 text-sm transition-colors"
+                                style={{ color: isDesktopNavOpen ? "var(--text)" : "var(--text-muted)" }}
+                                aria-haspopup="menu"
+                                aria-expanded={isDesktopNavOpen}
+                                aria-controls="desktop-navigation-menu"
+                                onClick={() => setIsDesktopNavOpen((prev) => !prev)}
+                            >
+                                <span>Navigate</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform ${isDesktopNavOpen ? "rotate-180" : ""}`} />
+                            </button>
 
-                        <AnimatePresence>
-                            {isDesktopNavOpen && (
-                                <motion.div
-                                    id="desktop-navigation-menu"
-                                    className="absolute right-0 top-[calc(100%+0.75rem)] w-72 overflow-hidden rounded-[1.75rem] p-3"
-                                    style={{ background: "var(--surface)", border: "1px solid var(--border)", boxShadow: "var(--shadow)" }}
-                                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                                    transition={{ duration: 0.18, ease: "easeOut" }}
-                                >
-                                    <ul className="grid gap-1" role="menu" aria-label="Section navigation">
-                                        {items.map(({ id, label }) => (
-                                            <li key={id} role="none">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleNavClick(id)}
-                                                    className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm transition-colors"
-                                                    style={{
-                                                        background: activeSection === id ? "var(--surface-strong)" : "transparent",
-                                                        color: activeSection === id ? "var(--text)" : "var(--text-muted)"
-                                                    }}
-                                                    aria-label={`Navigate to ${label} section`}
-                                                    role="menuitem"
-                                                >
-                                                    <span>{label}</span>
-                                                    {activeSection === id ? (
-                                                        <span className="h-2 w-2 rounded-full" style={{ background: "var(--accent)" }} />
-                                                    ) : null}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                            <AnimatePresence>
+                                {isDesktopNavOpen && (
+                                    <motion.div
+                                        id="desktop-navigation-menu"
+                                        className="absolute right-0 top-[calc(100%+0.75rem)] w-72 overflow-hidden rounded-[1.75rem] p-3"
+                                        style={{ background: "var(--surface)", border: "1px solid var(--border)", boxShadow: "var(--shadow)" }}
+                                        initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                                        transition={{ duration: 0.18, ease: "easeOut" }}
+                                    >
+                                        <ul className="grid gap-1" role="menu" aria-label="Section navigation">
+                                            {items.map(({ id, label }) => (
+                                                <li key={id} role="none">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleNavClick(id)}
+                                                        className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm transition-colors"
+                                                        style={{
+                                                            background: activeSection === id ? "var(--surface-strong)" : "transparent",
+                                                            color: activeSection === id ? "var(--text)" : "var(--text-muted)"
+                                                        }}
+                                                        aria-label={`Navigate to ${label} section`}
+                                                        role="menuitem"
+                                                    >
+                                                        <span>{label}</span>
+                                                        {activeSection === id ? (
+                                                            <span className="h-2 w-2 rounded-full" style={{ background: "var(--accent)" }} />
+                                                        ) : null}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    )}
 
                     {secondaryLinks.map(({ href, label }) => (
                         <a
                             key={href}
                             href={href}
-                            className="rounded-full px-4 py-3 text-sm font-medium transition-colors"
-                            style={{
-                                color: "var(--text)",
-                                background: "color-mix(in srgb, var(--surface) 92%, transparent)",
-                                boxShadow: "0 0 0 1px var(--border)"
-                            }}
+                            className="text-sm font-medium transition-colors"
+                            style={{ color: "var(--text)" }}
                             aria-label={`Navigate to ${label} page`}
                         >
                             {label}
@@ -198,7 +196,7 @@ export function Navigation({
 
                 <button
                     type="button"
-                    className="ring-button h-11 w-11 px-0 md:hidden"
+                    className="ring-button h-11 w-11 px-0 lg:hidden"
                     onClick={() => setIsMenuOpen((prev) => !prev)}
                     aria-expanded={isMenuOpen}
                     aria-controls="mobile-navigation-menu"
@@ -212,35 +210,39 @@ export function Navigation({
                 {isMenuOpen && (
                     <motion.div
                         id="mobile-navigation-menu"
-                        className="mx-auto mt-3 max-w-6xl rounded-[2rem] p-4 md:hidden"
+                        className="mx-auto mt-3 max-w-6xl rounded-[2rem] p-4 lg:hidden"
                         style={{ background: "var(--surface)", border: "1px solid var(--border)", boxShadow: "var(--shadow)" }}
                         initial={{ opacity: 0, y: -12 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -12 }}
                     >
-                        <div className="mb-2 px-2 text-xs uppercase tracking-[0.18em]" style={{ color: "var(--text-soft)" }}>
-                            Navigate
-                        </div>
-                        <ul className="flex flex-col gap-1">
-                            {items.map(({ id, label }) => (
-                                <li key={id}>
-                                    <button
-                                        onClick={() => handleNavClick(id)}
-                                        className="w-full rounded-2xl px-4 py-3 text-left text-sm transition-colors"
-                                        style={{
-                                            background: activeSection === id ? "var(--surface-strong)" : "transparent",
-                                            color: activeSection === id ? "var(--text)" : "var(--text-muted)"
-                                        }}
-                                        aria-label={`Navigate to ${label} section`}
-                                    >
-                                        {label}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                        {items.length > 0 && (
+                            <>
+                                <div className="mb-2 px-2 text-xs uppercase tracking-[0.18em]" style={{ color: "var(--text-soft)" }}>
+                                    Navigate
+                                </div>
+                                <ul className="flex flex-col gap-1">
+                                    {items.map(({ id, label }) => (
+                                        <li key={id}>
+                                            <button
+                                                onClick={() => handleNavClick(id)}
+                                                className="w-full rounded-2xl px-4 py-3 text-left text-sm transition-colors"
+                                                style={{
+                                                    background: activeSection === id ? "var(--surface-strong)" : "transparent",
+                                                    color: activeSection === id ? "var(--text)" : "var(--text-muted)"
+                                                }}
+                                                aria-label={`Navigate to ${label} section`}
+                                            >
+                                                {label}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
 
                         {secondaryLinks.length > 0 && (
-                            <div className="mt-4 border-t pt-4" style={{ borderColor: "var(--border)" }}>
+                            <div className={`${items.length > 0 ? "mt-4 border-t pt-4" : ""}`} style={{ borderColor: "var(--border)" }}>
                                 <ul className="flex flex-col gap-1">
                                     {secondaryLinks.map(({ href, label }) => (
                                         <li key={href}>
