@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Card, CardContent } from "../ui/card";
 import { Section, SectionHeading } from "../ui/Section";
 import { projectAnimation } from "../../constants/animations";
 
@@ -14,83 +13,82 @@ export function ProjectsSection({
     const toggleLabel = isExpanded ? "Show fewer" : `Show all (${totalProjects})`;
 
     return (
-        <Section id="projects" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <SectionHeading>Projects & Research</SectionHeading>
+        <Section id="projects" className="section-divider">
+            <div className="page-container">
+                <SectionHeading>Projects & Research</SectionHeading>
 
-            {totalProjects === 0 ? (
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-4">
-                    No projects match the selected filters yet.
-                </p>
-            ) : (
-                <>
-                    <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {projects.map((project, i) => (
-                            <motion.div
-                                key={project.title}
-                                custom={i}
-                                variants={projectAnimation}
-                                initial="hidden"
-                                animate="visible"
-                                transition={{
-                                    duration: 0.4,
-                                    type: "spring",
-                                    stiffness: 150,
-                                    damping: 15
-                                }}
-                                whileHover={{ y: -8, transition: { duration: 0.2, ease: "easeOut" } }}
-                                onClick={() => onProjectSelect(project)}
-                                role="button"
-                                aria-label={`View details for ${project.title}`}
-                                tabIndex={0}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        e.preventDefault();
-                                        onProjectSelect(project);
-                                    }
-                                }}
-                            >
-                                <Card className="h-full rounded-2xl bg-white/90 dark:bg-neutral-800/80 backdrop-blur-xl border border-gray-200 dark:border-transparent shadow-md hover:shadow-xl transition-all group cursor-pointer">
-                                    <CardContent className="p-5 sm:p-6 flex flex-col gap-4 h-full">
-                                        <header>
-                                            <h3 className="text-lg sm:text-xl font-medium leading-snug text-neutral-800 dark:text-neutral-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                                {project.title}
-                                            </h3>
-                                            <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                                                {project.year}
-                                            </span>
-                                        </header>
-                                        <p className="text-sm text-neutral-700 dark:text-neutral-300 flex-grow">
-                                            {project.description}
-                                        </p>
-                                        <ul className="flex flex-wrap gap-2 mt-auto">
-                                            {project.tags.map((tag) => (
-                                                <li
-                                                    key={tag}
-                                                    className="text-xs px-2 py-1 bg-blue-50 text-blue-700 dark:bg-neutral-700 dark:text-blue-200 rounded-xl group-hover:bg-blue-100 dark:group-hover:bg-neutral-600 transition-colors"
-                                                >
-                                                    {tag}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {canToggle && (
-                        <div className="mt-8 flex justify-center">
-                            <button
-                                onClick={onToggleExpand}
-                                aria-expanded={isExpanded}
-                                className="px-4 py-2 rounded-full border border-blue-200 dark:border-neutral-700 bg-blue-50 dark:bg-neutral-800 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors"
-                            >
-                                {toggleLabel}
-                            </button>
+                {totalProjects === 0 ? (
+                    <p className="mt-4 text-sm" style={{ color: "var(--text-muted)" }}>
+                        No projects match the selected filters yet.
+                    </p>
+                ) : (
+                    <>
+                        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            {projects.map((project, i) => (
+                                <motion.div
+                                    key={project.title}
+                                    custom={i}
+                                    variants={projectAnimation}
+                                    initial="hidden"
+                                    animate="visible"
+                                    transition={{
+                                        duration: 0.4,
+                                        type: "spring",
+                                        stiffness: 150,
+                                        damping: 15
+                                    }}
+                                    whileHover={{ y: -8, transition: { duration: 0.2, ease: "easeOut" } }}
+                                    onClick={() => onProjectSelect(project)}
+                                    role="button"
+                                    aria-label={`View details for ${project.title}`}
+                                    tabIndex={0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            onProjectSelect(project);
+                                        }
+                                    }}
+                                >
+                                    <article className="h-full rounded-[2rem] p-5 sm:p-6" style={{ background: "var(--surface)", border: "1px solid var(--border-subtle)", boxShadow: "var(--shadow)" }}>
+                                        <div className="flex h-full flex-col gap-4">
+                                            <header>
+                                                <h3 className="text-lg font-medium leading-snug sm:text-xl" style={{ color: "var(--text)" }}>
+                                                    {project.title}
+                                                </h3>
+                                                <span className="text-sm" style={{ color: "var(--text-soft)" }}>
+                                                    {project.year}
+                                                </span>
+                                            </header>
+                                            <p className="flex-grow text-sm leading-6" style={{ color: "var(--text-muted)" }}>
+                                                {project.description}
+                                            </p>
+                                            <ul className="mt-auto flex flex-wrap gap-2">
+                                                {project.tags.map((tag) => (
+                                                    <li key={tag} className="rounded-full px-2.5 py-1 text-xs" style={{ background: "var(--surface-strong)", color: "var(--text-muted)", boxShadow: "0 0 0 1px var(--border)" }}>
+                                                        {tag}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </motion.div>
+                            ))}
                         </div>
-                    )}
-                </>
-            )}
+
+                        {canToggle && (
+                            <div className="mt-8 flex justify-center">
+                                <button
+                                    onClick={onToggleExpand}
+                                    aria-expanded={isExpanded}
+                                    className="ring-button"
+                                >
+                                    {toggleLabel}
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
         </Section>
     );
 }
