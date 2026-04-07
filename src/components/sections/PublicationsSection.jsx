@@ -1,54 +1,44 @@
-import { FileText } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
+import { ArrowUpRight, FileText } from "lucide-react";
 import { Section, SectionHeading } from "../ui/Section";
 
 export function PublicationsSection({ publications }) {
     return (
-        <Section id="publications" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <SectionHeading>Publications</SectionHeading>
-
-            <div className="grid gap-6">
-                {publications.map((publication) => (
-                    <Card
-                        key={publication.title}
-                        className="rounded-2xl bg-white/90 dark:bg-neutral-800/80 backdrop-blur-xl border border-gray-200 dark:border-transparent shadow-md"
-                    >
-                        <CardContent className="p-5 sm:p-6 flex flex-col gap-4">
-                            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                                <div>
-                                    <h3 className="text-lg sm:text-xl font-medium text-neutral-800 dark:text-neutral-100">
-                                        {publication.title}
-                                    </h3>
-                                    <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                                        {publication.venue} · {publication.year}
-                                    </p>
+        <Section id="publications" className="section-divider">
+            <div className="page-container">
+                <SectionHeading>Publications</SectionHeading>
+                <div className="space-y-8">
+                    {publications.map((publication) => (
+                        <article key={publication.title} className="surface-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
+                            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                                <div className="max-w-3xl">
+                                    <div className="flex items-center gap-3 text-sm uppercase tracking-[0.18em]" style={{ color: "var(--accent)" }}>
+                                        <FileText className="h-4 w-4" />
+                                        <span>{publication.year}</span>
+                                        <span style={{ color: "var(--text-soft)" }}>{publication.venue}</span>
+                                    </div>
+                                    <h3 className="mt-4 font-editorial text-3xl leading-tight sm:text-4xl">{publication.title}</h3>
+                                    <p className="mt-4 text-base leading-7" style={{ color: "var(--text-muted)" }}>{publication.summary}</p>
+                                    <p className="mt-5 text-sm leading-7" style={{ color: "var(--text-soft)" }}>{publication.shortAuthors}</p>
                                 </div>
-                                <span className="inline-flex w-fit rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-neutral-700 dark:text-blue-200">
-                                    First publication
-                                </span>
+                                <div className="flex flex-wrap gap-3 lg:max-w-xs lg:justify-end">
+                                    {publication.arxivUrl ? <a href={publication.arxivUrl} target="_blank" rel="noreferrer" className="ring-button gap-2">arXiv <ArrowUpRight className="h-4 w-4" /></a> : null}
+                                    {publication.pdfUrl ? <a href={publication.pdfUrl} target="_blank" rel="noreferrer" className="ring-button gap-2">PDF <ArrowUpRight className="h-4 w-4" /></a> : null}
+                                    {publication.doiUrl ? <a href={publication.doiUrl} target="_blank" rel="noreferrer" className="ring-button gap-2">DOI <ArrowUpRight className="h-4 w-4" /></a> : null}
+                                </div>
                             </div>
-
-                            <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                                {publication.shortAuthors}
-                            </p>
-                            <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
-                                {publication.summary}
-                            </p>
-
-                            <div className="flex flex-wrap gap-3 pt-2">
-                                <a
-                                    href={publication.arxivUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-                                >
-                                    <FileText className="h-4 w-4" />
-                                    Read on arXiv
-                                </a>
+                            <div className="mt-8 grid gap-6 border-t pt-8 lg:grid-cols-[1.2fr_0.8fr]" style={{ borderColor: "var(--border)" }}>
+                                <p className="text-base leading-7" style={{ color: "var(--text-muted)" }}>{publication.abstract}</p>
+                                <ul className="flex flex-wrap content-start gap-2 lg:justify-end">
+                                    {publication.tags.map((tag) => (
+                                        <li key={tag} className="rounded-full px-3 py-1 text-sm" style={{ background: "var(--surface-strong)", color: "var(--text-muted)", boxShadow: "0 0 0 1px var(--border)" }}>
+                                            {tag}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                        </article>
+                    ))}
+                </div>
             </div>
         </Section>
     );

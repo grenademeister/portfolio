@@ -1,17 +1,14 @@
 import { motion } from "framer-motion";
 import { fadeIn } from "../../constants/animations";
 
-/**
- * Reusable section wrapper with animation
- */
-export function Section({ children, className, id }) {
+export function Section({ children, className = "", id }) {
     return (
         <motion.section
             id={id}
-            className={className}
+            className={`section-frame ${className}`.trim()}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
             variants={fadeIn}
         >
             {children}
@@ -19,12 +16,9 @@ export function Section({ children, className, id }) {
     );
 }
 
-/**
- * Consistent section heading component
- */
-export function SectionHeading({ children }) {
+export function SectionHeading({ children, className = "" }) {
     return (
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 text-neutral-800 dark:text-white">
+        <h2 className={`section-title mb-8 sm:mb-10 ${className}`.trim()}>
             {children}
         </h2>
     );

@@ -2,22 +2,147 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+:root {
+  color-scheme: light;
+  --bg: #f5f4ed;
+  --surface: #faf9f5;
+  --surface-strong: #efece1;
+  --surface-dark: #30302e;
+  --surface-deep: #141413;
+  --text: #141413;
+  --text-muted: #5e5d59;
+  --text-soft: #87867f;
+  --border: #e8e6dc;
+  --border-subtle: #f0eee6;
+  --accent: #c96442;
+  --accent-soft: #d97757;
+  --ring: rgba(20, 20, 19, 0.08);
+  --shadow: 0 0 0 1px rgba(77, 76, 72, 0.08), 0 20px 50px rgba(20, 20, 19, 0.08);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #141413;
+  --surface: #1b1b19;
+  --surface-strong: #242420;
+  --surface-dark: #30302e;
+  --surface-deep: #0f0f0e;
+  --text: #f5f4ed;
+  --text-muted: #d8d3c6;
+  --text-soft: #c4c0b3;
+  --border: rgba(232, 230, 220, 0.16);
+  --border-subtle: rgba(240, 238, 230, 0.1);
+  --accent: #d97757;
+  --accent-soft: #efaa92;
+  --ring: rgba(245, 244, 237, 0.08);
+  --shadow: 0 0 0 1px rgba(240, 238, 230, 0.08), 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
 }
 
-/* For specific section targeting with padding for header */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 20% 20%, rgba(201, 100, 66, 0.08), transparent 26%), radial-gradient(circle at 80% 0%, rgba(119, 125, 87, 0.08), transparent 18%);
+  opacity: 0.9;
+}
+
+h1, h2, h3, h4, .font-editorial {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  letter-spacing: -0.03em;
+}
+
+::selection {
+  background: rgba(201, 100, 66, 0.2);
+}
+
 section[id], header[id], div[id] {
-  scroll-margin-top: 80px; /* Increased to ensure enough margin */
+  scroll-margin-top: 104px;
 }
 
-/* Smooth theme transition */
 html, body, * {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: 300ms;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 220ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer components {
+  .page-shell {
+    @apply relative min-h-screen antialiased;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .page-container {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .section-frame {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-divider {
+    border-top: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.24em];
+    color: var(--accent);
+  }
+
+  .section-title {
+    @apply text-4xl leading-[1.06] sm:text-5xl lg:text-6xl;
+    color: var(--text);
+  }
+
+  .section-copy {
+    @apply mt-5 max-w-2xl text-base leading-7 sm:text-lg;
+    color: var(--text-muted);
+  }
+
+  .surface-card {
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow);
+  }
+
+  .editorial-dark-panel {
+    background: linear-gradient(180deg, rgba(250, 249, 245, 0.08), rgba(250, 249, 245, 0.04));
+    border: 1px solid rgba(240, 238, 230, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 24px 50px rgba(0,0,0,0.22);
+  }
+
+  .ring-button {
+    @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .ring-button:hover {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, var(--border));
+    transform: translateY(-1px);
+  }
+
+  .accent-button {
+    @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium text-white;
+    background: var(--accent);
+    box-shadow: 0 0 0 1px rgba(20, 20, 19, 0.06);
+  }
+
+  .accent-button:hover {
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
 }
