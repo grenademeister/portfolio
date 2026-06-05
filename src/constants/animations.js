@@ -1,25 +1,24 @@
 /**
- * Animation variants used throughout the portfolio
+ * Restrained animation variants used throughout the portfolio.
  */
 
 export const fadeIn = {
-    hidden: { opacity: 0, y: 24 },
+    hidden: { opacity: 0, y: 10 },
     visible: (i = 0) => ({
         opacity: 1,
         y: 0,
-        transition: { delay: 0.15 * i, duration: 0.4 }
+        transition: { delay: 0.06 * i, duration: 0.25, ease: "easeOut" }
     }),
 };
 
 export const projectAnimation = {
-    hidden: { opacity: 0, scale: 0.9, y: 20 },
+    hidden: { opacity: 0, y: 8 },
     visible: (i = 0) => ({
         opacity: 1,
-        scale: 1,
         y: 0,
         transition: {
-            delay: 0.08 * i,
-            duration: 0.4,
+            delay: 0.04 * i,
+            duration: 0.25,
             ease: "easeOut"
         }
     }),
@@ -30,9 +29,9 @@ export const filterTextAnimation = {
     visible: {
         opacity: 1,
         height: "auto",
-        marginTop: "0.75rem",
+        marginTop: "1rem",
         transition: {
-            duration: 0.3,
+            duration: 0.2,
             ease: "easeOut"
         }
     },
@@ -41,7 +40,7 @@ export const filterTextAnimation = {
         height: 0,
         marginTop: 0,
         transition: {
-            duration: 0.2,
+            duration: 0.15,
             ease: "easeIn"
         }
     }

@@ -1,7 +1,7 @@
 export function Footer({ profileName }) {
     return (
-        <footer className="px-5 pb-10 pt-4 sm:px-8 lg:px-10">
-            <div className="page-container border-t pt-6 text-center text-xs" style={{ borderColor: "var(--border)", color: "var(--text-soft)" }}>
+        <footer className="page-container pb-10 pt-4">
+            <div className="border-t pt-5 text-xs leading-6" style={{ borderColor: "var(--border)", color: "var(--text-soft)" }}>
                 © {new Date().getFullYear()} {profileName}. All rights reserved.
             </div>
         </footer>

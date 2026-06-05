@@ -6,7 +6,7 @@ export function ContactSection() {
         <Section id="contact" className="section-divider">
             <div className="page-container">
                 <SectionHeading>Contact</SectionHeading>
-                <div className="surface-card max-w-2xl rounded-[2rem] p-6 sm:p-8">
+                <div className="max-w-2xl">
                     <ContactForm />
                 </div>
             </div>

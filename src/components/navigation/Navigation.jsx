@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { scrollToSection } from "../../utils";
 
 export function Navigation({
@@ -13,9 +12,6 @@ export function Navigation({
     homeHref = `${import.meta.env.BASE_URL}`
 }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isDesktopNavOpen, setIsDesktopNavOpen] = useState(false);
-    const desktopNavCloseTimeout = useRef(null);
 
     const defaultNavItems = [
         { id: "about", label: "About" },
@@ -28,36 +24,10 @@ export function Navigation({
     ];
     const items = navItems ?? defaultNavItems;
 
-    const clearDesktopNavCloseTimeout = () => {
-        if (desktopNavCloseTimeout.current) {
-            window.clearTimeout(desktopNavCloseTimeout.current);
-            desktopNavCloseTimeout.current = null;
-        }
-    };
-
-    const openDesktopNav = () => {
-        clearDesktopNavCloseTimeout();
-        setIsDesktopNavOpen(true);
-    };
-
-    const closeDesktopNav = () => {
-        clearDesktopNavCloseTimeout();
-        desktopNavCloseTimeout.current = window.setTimeout(() => {
-            setIsDesktopNavOpen(false);
-        }, 120);
-    };
-
     const handleNavClick = (id) => {
         scrollToSection(`#${id}`);
         setIsMenuOpen(false);
     };
-
-    useEffect(() => {
-        const onScroll = () => setIsScrolled(window.scrollY > 24);
-        onScroll();
-        window.addEventListener("scroll", onScroll);
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
 
     useEffect(() => {
         if (!isMenuOpen) return;
@@ -69,134 +39,66 @@ export function Navigation({
         };
 
         const onResize = () => {
-            if (window.innerWidth >= 768) {
+            if (window.innerWidth >= 1024) {
                 setIsMenuOpen(false);
             }
         };
 
-        const previousOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
         window.addEventListener("keydown", onKeyDown);
         window.addEventListener("resize", onResize);
-
         return () => {
-            document.body.style.overflow = previousOverflow;
             window.removeEventListener("keydown", onKeyDown);
             window.removeEventListener("resize", onResize);
         };
     }, [isMenuOpen]);
 
-    useEffect(() => () => clearDesktopNavCloseTimeout(), []);
-
     return (
-        <motion.nav
-            className="sticky top-0 z-50 px-3 pt-3 sm:px-5"
-            initial={{ y: -24, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+        <nav
+            className="sticky top-0 z-50 border-b bg-[var(--bg)]/95"
+            style={{ borderColor: "var(--border)" }}
         >
-            <div
-                className="mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6"
-                style={{
-                    background: isScrolled ? "color-mix(in srgb, var(--bg) 88%, transparent)" : "transparent",
-                    border: isScrolled ? "1px solid var(--border)" : "1px solid transparent",
-                    boxShadow: isScrolled ? "0 10px 30px rgba(20,20,19,0.08)" : "none",
-                    backdropFilter: isScrolled ? "blur(18px)" : "none"
-                }}
-            >
+            <div className="page-container flex min-h-14 items-center justify-between gap-6 py-3">
                 <a
                     href={homeHref}
-                    className="font-editorial text-lg font-semibold tracking-tight"
+                    className="font-editorial text-base leading-none text-[color:var(--text)] hover:text-[color:var(--accent)]"
                     aria-label={`Navigate to ${profileName} home`}
                 >
                     {profileName}
                 </a>
 
-                <div className="hidden items-center gap-6 lg:flex">
-                    {items.length > 0 && (
-                        <div
-                            className="relative"
-                            onMouseEnter={openDesktopNav}
-                            onMouseLeave={closeDesktopNav}
-                            onFocusCapture={openDesktopNav}
-                            onBlurCapture={(event) => {
-                                if (!event.currentTarget.contains(event.relatedTarget)) {
-                                    closeDesktopNav();
-                                }
-                            }}
-                        >
-                            <button
-                                type="button"
-                                className="inline-flex items-center gap-1 text-sm transition-colors"
-                                style={{ color: isDesktopNavOpen ? "var(--text)" : "var(--text-muted)" }}
-                                aria-haspopup="menu"
-                                aria-expanded={isDesktopNavOpen}
-                                aria-controls="desktop-navigation-menu"
-                                onClick={() => setIsDesktopNavOpen((prev) => !prev)}
-                            >
-                                <span>Navigate</span>
-                                <ChevronDown className={`h-4 w-4 transition-transform ${isDesktopNavOpen ? "rotate-180" : ""}`} />
-                            </button>
-
-                            <AnimatePresence>
-                                {isDesktopNavOpen && (
-                                    <motion.div
-                                        id="desktop-navigation-menu"
-                                        className="absolute right-0 top-[calc(100%+0.75rem)] w-72 overflow-hidden rounded-[1.75rem] p-3"
-                                        style={{ background: "var(--surface)", border: "1px solid var(--border)", boxShadow: "var(--shadow)" }}
-                                        initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                                        transition={{ duration: 0.18, ease: "easeOut" }}
+                <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 lg:flex">
+                    {items.length > 0 ? (
+                        <ul className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm">
+                            {items.map(({ id, label }) => (
+                                <li key={id}>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleNavClick(id)}
+                                        className="underline-offset-4 hover:underline"
+                                        style={{ color: activeSection === id ? "var(--accent)" : "var(--text-muted)" }}
+                                        aria-label={`Navigate to ${label} section`}
                                     >
-                                        <ul className="grid gap-1" role="menu" aria-label="Section navigation">
-                                            {items.map(({ id, label }) => (
-                                                <li key={id} role="none">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleNavClick(id)}
-                                                        className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm transition-colors"
-                                                        style={{
-                                                            background: activeSection === id ? "var(--surface-strong)" : "transparent",
-                                                            color: activeSection === id ? "var(--text)" : "var(--text-muted)"
-                                                        }}
-                                                        aria-label={`Navigate to ${label} section`}
-                                                        role="menuitem"
-                                                    >
-                                                        <span>{label}</span>
-                                                        {activeSection === id ? (
-                                                            <span className="h-2 w-2 rounded-full" style={{ background: "var(--accent)" }} />
-                                                        ) : null}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    )}
+                                        {label}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : null}
 
                     {secondaryLinks.map(({ href, label }) => (
-                        <a
-                            key={href}
-                            href={href}
-                            className="text-sm font-medium transition-colors"
-                            style={{ color: "var(--text)" }}
-                            aria-label={`Navigate to ${label} page`}
-                        >
+                        <a key={href} href={href} className="text-sm text-link" aria-label={`Navigate to ${label} page`}>
                             {label}
                         </a>
                     ))}
 
-                    <button onClick={toggleTheme} className="ring-button h-11 w-11 px-0" aria-label="Toggle theme">
+                    <button onClick={toggleTheme} className="plain-button h-9 w-9 px-0" aria-label="Toggle theme">
                         {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                     </button>
                 </div>
 
                 <button
                     type="button"
-                    className="ring-button h-11 w-11 px-0 lg:hidden"
+                    className="plain-button h-9 w-9 px-0 lg:hidden"
                     onClick={() => setIsMenuOpen((prev) => !prev)}
                     aria-expanded={isMenuOpen}
                     aria-controls="mobile-navigation-menu"
@@ -206,78 +108,43 @@ export function Navigation({
                 </button>
             </div>
 
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div
-                        id="mobile-navigation-menu"
-                        className="mx-auto mt-3 max-w-6xl rounded-[2rem] p-4 lg:hidden"
-                        style={{ background: "var(--surface)", border: "1px solid var(--border)", boxShadow: "var(--shadow)" }}
-                        initial={{ opacity: 0, y: -12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -12 }}
-                    >
-                        {items.length > 0 && (
-                            <>
-                                <div className="mb-2 px-2 text-xs uppercase tracking-[0.18em]" style={{ color: "var(--text-soft)" }}>
-                                    Navigate
-                                </div>
-                                <ul className="flex flex-col gap-1">
-                                    {items.map(({ id, label }) => (
-                                        <li key={id}>
-                                            <button
-                                                onClick={() => handleNavClick(id)}
-                                                className="w-full rounded-2xl px-4 py-3 text-left text-sm transition-colors"
-                                                style={{
-                                                    background: activeSection === id ? "var(--surface-strong)" : "transparent",
-                                                    color: activeSection === id ? "var(--text)" : "var(--text-muted)"
-                                                }}
-                                                aria-label={`Navigate to ${label} section`}
-                                            >
-                                                {label}
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
+            {isMenuOpen ? (
+                <div id="mobile-navigation-menu" className="page-container border-t py-4 lg:hidden" style={{ borderColor: "var(--border)" }}>
+                    {items.length > 0 ? (
+                        <ul className="grid gap-3 text-sm">
+                            {items.map(({ id, label }) => (
+                                <li key={id}>
+                                    <button
+                                        onClick={() => handleNavClick(id)}
+                                        className="w-full text-left underline-offset-4 hover:underline"
+                                        style={{ color: activeSection === id ? "var(--accent)" : "var(--text-muted)" }}
+                                        aria-label={`Navigate to ${label} section`}
+                                    >
+                                        {label}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : null}
 
-                        {secondaryLinks.length > 0 && (
-                            <div className={`${items.length > 0 ? "mt-4 border-t pt-4" : ""}`} style={{ borderColor: "var(--border)" }}>
-                                <ul className="flex flex-col gap-1">
-                                    {secondaryLinks.map(({ href, label }) => (
-                                        <li key={href}>
-                                            <a
-                                                href={href}
-                                                onClick={() => setIsMenuOpen(false)}
-                                                className="block w-full rounded-2xl px-4 py-3 text-left text-sm font-medium"
-                                                style={{
-                                                    background: "color-mix(in srgb, var(--surface-strong) 62%, transparent)",
-                                                    color: "var(--text)"
-                                                }}
-                                                aria-label={`Navigate to ${label} page`}
-                                            >
-                                                {label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                    {secondaryLinks.length > 0 ? (
+                        <ul className={`${items.length > 0 ? "mt-4 border-t pt-4" : ""} grid gap-3 text-sm`} style={{ borderColor: "var(--border)" }}>
+                            {secondaryLinks.map(({ href, label }) => (
+                                <li key={href}>
+                                    <a href={href} onClick={() => setIsMenuOpen(false)} className="text-link">
+                                        {label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : null}
 
-                        <div className="mt-4 border-t pt-4" style={{ borderColor: "var(--border)" }}>
-                            <button
-                                onClick={toggleTheme}
-                                className="flex w-full items-center gap-2 rounded-2xl px-4 py-3 text-left text-sm"
-                                style={{ color: "var(--text-muted)" }}
-                                aria-label="Toggle theme"
-                            >
-                                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.nav>
+                    <button onClick={toggleTheme} className="mt-4 inline-flex items-center gap-2 text-sm text-[color:var(--text-muted)]">
+                        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+                    </button>
+                </div>
+            ) : null}
+        </nav>
     );
 }

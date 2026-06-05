@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Navigation } from "../components/navigation/Navigation";
 import { Footer } from "../components/layout/Footer";
-import { Card, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { PROFILE } from "../data/profile";
 import { useTheme } from "../hooks";
 import {
@@ -54,6 +52,15 @@ function formatCountLabel(count, singular, plural = `${singular}s`) {
     return `${count} ${count === 1 ? singular : plural}`;
 }
 
+function StatusBlock({ tone = "muted", children, className = "" }) {
+    const color = tone === "error" ? "var(--danger)" : "var(--text-soft)";
+    return (
+        <div className={`border-l py-8 pl-4 text-sm leading-7 ${className}`.trim()} style={{ borderColor: color, color }}>
+            {children}
+        </div>
+    );
+}
+
 function BlogShell({ theme, toggleTheme, children }) {
     return (
         <div className="page-shell">
@@ -69,50 +76,36 @@ function BlogShell({ theme, toggleTheme, children }) {
                 ]}
             />
 
-            <main className="relative overflow-hidden">
-                {children}
-            </main>
+            <main>{children}</main>
 
             <Footer profileName={PROFILE.name} />
         </div>
     );
 }
 
-function BlogPostCard({ post }) {
+function BlogPostEntry({ post }) {
     return (
-        <a
-            href={`#/${post.slug}`}
-            className="group block h-full rounded-[1.75rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/40"
-        >
-            <Card className="h-full transition-transform duration-200 group-hover:-translate-y-1">
-                <CardHeader className="space-y-4">
-                    <div className="flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--text-soft)" }}>
-                        <span>{formatDate(post.date)}</span>
-                        <span>{formatCountLabel(post.view_count || 0, "view")}</span>
-                        {post.tags.length ? (
-                            <div className="flex flex-wrap gap-2">
-                                {post.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="rounded-full px-2.5 py-1 text-xs font-medium" style={{ background: "var(--surface-strong)", color: "var(--accent)", boxShadow: "0 0 0 1px var(--border)" }}
-                                    >
-                                        #{tag}
-                                    </span>
-                                ))}
-                            </div>
-                        ) : null}
-                    </div>
-                    <div className="space-y-2">
-                        <CardTitle className="text-xl sm:text-2xl group-hover:text-[var(--accent)]">
-                            {post.title}
-                        </CardTitle>
-                        <CardDescription className="text-base leading-7" style={{ color: "var(--text-muted)" }}>
-                            {post.summary || "No summary provided yet."}
-                        </CardDescription>
-                    </div>
-                </CardHeader>
-            </Card>
-        </a>
+        <article className="notebook-entry grid gap-2 md:grid-cols-[150px_1fr]">
+            <div className="meta">
+                <p>{formatDate(post.date)}</p>
+                <p>{formatCountLabel(post.view_count || 0, "view")}</p>
+            </div>
+            <div>
+                <a href={`#/${post.slug}`} className="group block">
+                    <h2 className="font-editorial text-2xl leading-8 text-[color:var(--text)] underline-offset-4 group-hover:underline">
+                        {post.title}
+                    </h2>
+                    <p className="mt-2 text-base leading-7 text-[color:var(--text-muted)]">
+                        {post.summary || "No summary provided yet."}
+                    </p>
+                </a>
+                {post.tags.length ? (
+                    <p className="mt-3 text-xs leading-6 text-[color:var(--text-soft)]">
+                        {post.tags.map((tag) => `#${tag}`).join(" / ")}
+                    </p>
+                ) : null}
+            </div>
+        </article>
     );
 }
 
@@ -177,91 +170,60 @@ function BlogIndex() {
 
     return (
         <section className="page-container section-frame">
-            <motion.div
-                className="max-w-3xl"
-                initial={{ opacity: 0, y: -32 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.7 } }}
-            >
+            <div className="max-w-3xl">
                 <p className="eyebrow">Blog</p>
-                <h1 className="font-editorial mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+                <h1 className="font-editorial text-4xl leading-tight sm:text-5xl">
                     Life Logs
                 </h1>
-                <p className="mt-6 max-w-2xl text-base leading-7 sm:text-lg" style={{ color: "var(--text-muted)" }}>
+                <p className="section-copy">
                     Selected, published posts from my Obsidian vault.
                 </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-                className="mt-12"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1 } }}
-            >
-                <form
-                    onSubmit={handleSearchSubmit}
-                    className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end"
-                >
-                    <label className="min-w-0 flex-1">
+            <div className="mt-10">
+                <form onSubmit={handleSearchSubmit} className="mb-8 grid gap-3 border-t pt-5 sm:grid-cols-[1fr_auto_auto] sm:items-end" style={{ borderColor: "var(--border)" }}>
+                    <label className="min-w-0">
+                        <span className="sr-only">Search blog posts</span>
                         <input
                             type="search"
                             value={searchInput}
                             onChange={(event) => setSearchInput(event.target.value)}
                             placeholder="Search titles, summaries, or tags"
-                            className="w-full border-0 border-b bg-transparent px-0 py-3 text-base outline-none transition focus:ring-0" style={{ borderColor: "var(--border)", color: "var(--text)" }}
+                            className="field"
                             aria-label="Search blog posts"
                         />
                     </label>
-                    <div className="flex gap-3">
-                        <button
-                            type="submit"
-                            className="accent-button"
-                        >
-                            Search
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleSearchClear}
-                            className="ring-button"
-                        >
-                            Clear
-                        </button>
-                    </div>
+                    <button type="submit" className="accent-button">Search</button>
+                    <button type="button" onClick={handleSearchClear} className="plain-button">Clear</button>
                 </form>
 
                 {status === "success" && posts.length > 0 ? (
-                    <div className="mb-6 text-sm" style={{ color: "var(--text-soft)" }}>
+                    <div className="mb-5 text-sm text-[color:var(--text-soft)]">
                         {posts.length} result{posts.length > 1 ? "s" : ""}
                         {activeQuery ? ` for "${activeQuery}"` : ` across all published posts`}
                     </div>
                 ) : null}
 
                 {status === "loading" ? (
-                    <div className="rounded-[2rem] border border-dashed px-6 py-16 text-center" style={{ borderColor: "var(--border)", color: "var(--text-soft)", background: "color-mix(in srgb, var(--surface) 72%, transparent)" }}>
-                        {activeQuery ? `Searching for "${activeQuery}"...` : "Loading published posts..."}
-                    </div>
+                    <StatusBlock>{activeQuery ? `Searching for "${activeQuery}"...` : "Loading published posts..."}</StatusBlock>
                 ) : null}
 
                 {status === "error" ? (
-                    <div className="rounded-[2rem] border px-6 py-16 text-center" style={{ borderColor: "rgba(181,51,51,0.18)", background: "rgba(181,51,51,0.08)", color: "#b53333" }}>
-                        Could not reach the blog backend at {BLOG_API_URL}.
-                    </div>
+                    <StatusBlock tone="error">Could not reach the blog backend at {BLOG_API_URL}.</StatusBlock>
                 ) : null}
 
                 {status === "success" && posts.length === 0 ? (
-                    <div className="rounded-[2rem] border border-dashed px-6 py-16 text-center" style={{ borderColor: "var(--border)", color: "var(--text-soft)", background: "color-mix(in srgb, var(--surface) 72%, transparent)" }}>
-                        {activeQuery
-                            ? `No posts matched "${activeQuery}".`
-                            : "No published posts yet."}
-                    </div>
+                    <StatusBlock>{activeQuery ? `No posts matched "${activeQuery}".` : "No published posts yet."}</StatusBlock>
                 ) : null}
 
                 {status === "success" && posts.length > 0 ? (
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="ruled-list">
                         {posts.map((post) => (
-                            <BlogPostCard key={post.slug} post={post} />
+                            <BlogPostEntry key={post.slug} post={post} />
                         ))}
                     </div>
                 ) : null}
-            </motion.div>
+            </div>
         </section>
     );
 }
@@ -383,124 +345,88 @@ function BlogPostPage({ slug }) {
 
     return (
         <section className="page-container section-frame">
-            <motion.div
-                className="mx-auto max-w-3xl"
-                initial={{ opacity: 0, y: -24 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-            >
-                <a
-                    href="#"
-                    className="inline-flex items-center text-sm font-medium transition-colors hover:opacity-80" style={{ color: "var(--accent)" }}
-                >
+            <div className="mx-auto max-w-3xl">
+                <a href="#" className="text-link text-sm">
                     Back to all posts
                 </a>
 
-                {status === "loading" ? (
-                    <div className="mt-8 rounded-[2rem] border border-dashed px-6 py-16 text-center" style={{ borderColor: "var(--border)", color: "var(--text-soft)", background: "color-mix(in srgb, var(--surface) 72%, transparent)" }}>
-                        Loading post...
-                    </div>
-                ) : null}
-
-                {status === "error" ? (
-                    <div className="mt-8 rounded-[2rem] border px-6 py-16 text-center" style={{ borderColor: "rgba(181,51,51,0.18)", background: "rgba(181,51,51,0.08)", color: "#b53333" }}>
-                        Could not reach the blog backend at {BLOG_API_URL}.
-                    </div>
-                ) : null}
-
-                {status === "not-found" ? (
-                    <div className="mt-8 rounded-[2rem] border border-dashed px-6 py-16 text-center" style={{ borderColor: "var(--border)", color: "var(--text-soft)", background: "color-mix(in srgb, var(--surface) 72%, transparent)" }}>
-                        Post not found.
-                    </div>
-                ) : null}
+                {status === "loading" ? <StatusBlock className="mt-8">Loading post...</StatusBlock> : null}
+                {status === "error" ? <StatusBlock tone="error" className="mt-8">Could not reach the blog backend at {BLOG_API_URL}.</StatusBlock> : null}
+                {status === "not-found" ? <StatusBlock className="mt-8">Post not found.</StatusBlock> : null}
 
                 {status === "success" && post ? (
-                    <article className="mx-auto mt-8 max-w-3xl">
+                    <article className="mt-8">
                         <header className="border-b pb-8" style={{ borderColor: "var(--border)" }}>
-                            <div className="flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--text-soft)" }}>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[color:var(--text-soft)]">
                                 <span>{formatDate(post.date)}</span>
                                 <span>{formatCountLabel(post.view_count || 0, "view")}</span>
                                 <span>{formatCountLabel(post.comments?.length || 0, "comment")}</span>
                             </div>
-                            <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+                            <h1 className="mt-5 font-editorial text-4xl leading-tight sm:text-5xl">
                                 {post.title}
                             </h1>
                         </header>
 
                         <div
-                            className="mt-10 text-[color:var(--text-muted)] [&_a]:underline [&_a]:underline-offset-4 [&_a]:text-[color:var(--accent)] [&_h1]:mt-12 [&_h1]:font-editorial [&_h1]:text-3xl [&_h1]:font-semibold [&_h2]:mt-10 [&_h2]:font-editorial [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:font-editorial [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-2 [&_blockquote]:mt-6 [&_blockquote]:border-l-4 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:mt-8 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:shadow-lg" style={{ ["--tw-prose-quote-borders"]: "var(--border)", ["--tw-prose-img-borders"]: "var(--border)" }}
+                            className="mt-10 text-[color:var(--text-muted)] [&_a]:text-[color:var(--accent)] [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:mt-6 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:italic [&_h1]:mt-12 [&_h1]:font-editorial [&_h1]:text-3xl [&_h1]:font-semibold [&_h2]:mt-10 [&_h2]:font-editorial [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:font-editorial [&_h3]:text-xl [&_h3]:font-semibold [&_img]:mt-8 [&_img]:w-full [&_img]:border [&_li]:mt-2 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6"
+                            style={{ ["--tw-prose-quote-borders"]: "var(--border)", ["--tw-prose-img-borders"]: "var(--border)" }}
                             dangerouslySetInnerHTML={{ __html: normalizedHtml }}
                         />
 
                         <section className="mt-16 border-t pt-10" style={{ borderColor: "var(--border)" }}>
-                            <div className="flex flex-wrap items-center justify-between gap-3">
-                                <h2 className="font-editorial text-2xl font-semibold tracking-tight">
+                            <div className="flex flex-wrap items-baseline justify-between gap-3">
+                                <h2 className="font-editorial text-2xl leading-tight">
                                     Comments
                                 </h2>
-                                <p className="text-sm" style={{ color: "var(--text-soft)" }}>
+                                <p className="meta">
                                     {formatCountLabel(post.comments?.length || 0, "comment")}
                                 </p>
                             </div>
 
-                            <form
-                                onSubmit={handleCommentSubmit}
-                                className="surface-card mt-8 space-y-4 rounded-[2rem] p-6"
-                            >
-                                <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)]">
-                                    <label className="block">
-                                        <span className="mb-2 block text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-                                            Name
-                                        </span>
-                                        <input
-                                            type="text"
-                                            value={commentAuthor}
-                                            onChange={(event) => setCommentAuthor(event.target.value)}
-                                            className="w-full rounded-[1.25rem] border px-4 py-3 outline-none transition" style={{ borderColor: "var(--border)", background: "var(--bg)", color: "var(--text)" }}
-                                            placeholder="Your name"
-                                        />
-                                    </label>
-                                </div>
+                            <form onSubmit={handleCommentSubmit} className="mt-8 space-y-5 border-t pt-5" style={{ borderColor: "var(--border-subtle)" }}>
                                 <label className="block">
-                                    <span className="mb-2 block text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-                                        Comment
-                                    </span>
+                                    <span className="meta mb-1 block">Name</span>
+                                    <input
+                                        type="text"
+                                        value={commentAuthor}
+                                        onChange={(event) => setCommentAuthor(event.target.value)}
+                                        className="field"
+                                        placeholder="Your name"
+                                    />
+                                </label>
+                                <label className="block">
+                                    <span className="meta mb-1 block">Comment</span>
                                     <textarea
                                         value={commentBody}
                                         onChange={(event) => setCommentBody(event.target.value)}
                                         rows={5}
-                                        className="w-full rounded-[1.25rem] border px-4 py-3 outline-none transition" style={{ borderColor: "var(--border)", background: "var(--bg)", color: "var(--text)" }}
+                                        className="field"
                                         placeholder="Write a comment"
                                     />
                                 </label>
                                 {commentStatus === "error" && commentError ? (
-                                    <p className="text-sm" style={{ color: "#b53333" }}>
+                                    <p className="text-sm" style={{ color: "var(--danger)" }}>
                                         {commentError}
                                     </p>
                                 ) : null}
                                 {commentStatus === "success" ? (
-                                    <p className="text-sm" style={{ color: "#5b6a46" }}>
+                                    <p className="text-sm" style={{ color: "var(--success)" }}>
                                         Comment posted.
                                     </p>
                                 ) : null}
-                                <button
-                                    type="submit"
-                                    disabled={commentStatus === "submitting"}
-                                    className="accent-button disabled:cursor-not-allowed disabled:opacity-60"
-                                >
+                                <button type="submit" disabled={commentStatus === "submitting"} className="accent-button disabled:cursor-not-allowed disabled:opacity-60">
                                     {commentStatus === "submitting" ? "Posting..." : "Post comment"}
                                 </button>
                             </form>
 
-                            <div className="mt-8 space-y-4">
+                            <div className="ruled-list mt-8">
                                 {post.comments?.length ? post.comments.map((comment) => (
-                                    <div
-                                        key={comment.id}
-                                        className="surface-card rounded-[2rem] p-6"
-                                    >
-                                        <div className="flex flex-wrap items-center justify-between gap-3">
-                                            <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                                    <article key={comment.id} className="notebook-entry">
+                                        <div className="flex flex-wrap items-baseline justify-between gap-3">
+                                            <p className="text-sm text-[color:var(--text)]">
                                                 {comment.author_name}
                                             </p>
-                                            <p className="text-sm" style={{ color: "var(--text-soft)" }}>
+                                            <p className="meta">
                                                 {new Intl.DateTimeFormat("en", {
                                                     year: "numeric",
                                                     month: "short",
@@ -510,20 +436,18 @@ function BlogPostPage({ slug }) {
                                                 }).format(new Date(comment.created_at))}
                                             </p>
                                         </div>
-                                        <p className="mt-4 whitespace-pre-wrap text-base leading-7" style={{ color: "var(--text-muted)" }}>
+                                        <p className="mt-3 whitespace-pre-wrap text-base leading-7 text-[color:var(--text-muted)]">
                                             {comment.body}
                                         </p>
-                                    </div>
+                                    </article>
                                 )) : (
-                                    <div className="rounded-[2rem] border border-dashed px-6 py-12 text-center" style={{ borderColor: "var(--border)", color: "var(--text-soft)", background: "color-mix(in srgb, var(--surface) 72%, transparent)" }}>
-                                        No comments yet.
-                                    </div>
+                                    <StatusBlock>No comments yet.</StatusBlock>
                                 )}
                             </div>
                         </section>
                     </article>
                 ) : null}
-            </motion.div>
+            </div>
         </section>
     );
 }

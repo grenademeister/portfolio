@@ -1,160 +1,102 @@
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { Github, Mail, Linkedin, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Github, Mail, Linkedin, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import cvFile from "/cv.pdf";
-import profilePhoto1 from "/pic1-square.jpg";
-import profilePhoto2 from "/pic2-square.jpg";
+import profilePhoto from "/pic1-square.jpg";
+
+const MotionDiv = motion.div;
+const MotionH1 = motion.h1;
+const MotionP = motion.p;
+const MotionFigure = motion.figure;
 
 export function Hero({ profile }) {
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-    const [activePhotoIndex, setActivePhotoIndex] = useState(0);
-    const profilePhotos = [profilePhoto1, profilePhoto2];
-    const heroRef = useRef(null);
-    const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-    const imageY = useTransform(scrollYProgress, [0, 1], [0, 28]);
-    const copyY = useTransform(scrollYProgress, [0, 1], [0, -14]);
 
-    const showPreviousPhoto = () => {
-        setActivePhotoIndex((prev) => (prev - 1 + profilePhotos.length) % profilePhotos.length);
-    };
+    const links = [
+        { href: profile.github, label: "GitHub", icon: <Github className="h-4 w-4" />, external: true },
+        { href: profile.linkedin, label: "LinkedIn", icon: <Linkedin className="h-4 w-4" />, external: true },
+        { href: `mailto:${profile.email}`, label: "Email", icon: <Mail className="h-4 w-4" /> }
+    ];
 
-    const showNextPhoto = () => {
-        setActivePhotoIndex((prev) => (prev + 1) % profilePhotos.length);
+    const item = {
+        hidden: { opacity: 0, y: 12 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.34, ease: "easeOut" } }
     };
 
     return (
-        <header id="about" ref={heroRef} className="relative overflow-hidden px-5 pb-10 pt-2 sm:px-8 sm:pb-12 lg:px-10 lg:pb-14 lg:pt-4">
-            <div className="absolute inset-x-0 top-0 -z-10 h-[72%] rounded-[2.5rem] sm:rounded-[3rem]" style={{ background: "linear-gradient(135deg, rgba(201,100,66,0.14), rgba(232,230,220,0.1) 40%, rgba(119,125,87,0.08))" }} />
-            <motion.div
-                className="mx-auto grid min-h-[auto] max-w-[92rem] grid-cols-1 gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.78fr)] md:items-start lg:gap-12"
-                initial={{ opacity: 0, y: -16 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.55 } }}
+        <header id="about" className="page-container py-10 sm:py-14 lg:py-18">
+            <MotionDiv
+                className="grid gap-8 md:grid-cols-[minmax(0,1fr)_210px] md:items-start lg:grid-cols-[minmax(0,1fr)_250px]"
+                initial="hidden"
+                animate="visible"
+                transition={{ staggerChildren: 0.07 }}
             >
-                <motion.div style={{ y: copyY }} className="max-w-2xl pt-16 sm:pt-20 lg:pl-4 lg:pt-24 xl:pl-8">
-                    <h1 className="font-editorial text-4xl leading-[0.95] sm:text-5xl md:text-7xl">
+                <div className="max-w-3xl">
+                    <MotionH1 variants={item} className="font-editorial text-4xl leading-[1.03] sm:text-5xl md:text-6xl lg:text-7xl">
                         {profile.name}
-                    </h1>
-                    <p className="mt-4 text-lg sm:text-xl md:text-2xl" style={{ color: "var(--accent)" }}>
+                    </MotionH1>
+                    <MotionP variants={item} className="mt-4 text-lg leading-7 text-[color:var(--text)] sm:text-xl md:text-2xl">
                         {profile.tagline}
-                    </p>
-                    <div className="mt-4">
-                        <p className="whitespace-pre-line leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                            {profile.summary}
-                        </p>
+                    </MotionP>
+                    <MotionP variants={item} className="mt-4 max-w-2xl whitespace-pre-line text-base leading-7 text-[color:var(--text-muted)] sm:text-lg sm:leading-8">
+                        {profile.summary}
+                    </MotionP>
 
-                        <div className="mt-3">
-                            <button
-                                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                                className="flex items-center gap-2 text-sm transition-colors"
-                                style={{ color: "var(--accent)" }}
-                                aria-expanded={isDescriptionExpanded}
-                                aria-label={isDescriptionExpanded ? "Hide description" : "Show description"}
+                    <MotionDiv variants={item} className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm sm:mt-7">
+                        {links.map((link) => (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                target={link.external ? "_blank" : undefined}
+                                rel={link.external ? "noreferrer" : undefined}
+                                className="inline-flex items-center gap-1.5 text-link"
+                                aria-label={link.label}
                             >
-                                <span>More about me</span>
-                                {isDescriptionExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                            </button>
+                                {link.icon}
+                                <span>{link.label}</span>
+                            </a>
+                        ))}
+                        <a href={cvFile} download className="text-link">CV</a>
+                        <a href={`${import.meta.env.BASE_URL}bare.html`} className="text-link">Bare HTML</a>
+                    </MotionDiv>
 
-                            <motion.div
-                                initial={false}
-                                animate={{
-                                    height: isDescriptionExpanded ? "auto" : 0,
-                                    opacity: isDescriptionExpanded ? 1 : 0
-                                }}
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="overflow-hidden"
-                            >
-                                <p className="whitespace-pre-line pt-3 text-sm leading-relaxed" style={{ color: "var(--text-soft)" }}>
-                                    {profile.description}
-                                </p>
-                            </motion.div>
-                        </div>
-                    </div>
-
-                    <div className="mt-6 flex gap-4 sm:gap-6">
-                        <a href={profile.github} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-80" aria-label="GitHub Profile">
-                            <Github className="h-6 w-6" />
-                        </a>
-                        <a href={profile.linkedin} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-80" aria-label="LinkedIn Profile">
-                            <Linkedin className="h-6 w-6" />
-                        </a>
-                        <a href={`mailto:${profile.email}`} className="transition-opacity hover:opacity-80" aria-label="Email Contact">
-                            <Mail className="h-6 w-6" />
-                        </a>
-                    </div>
-
-                    <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
-                        <motion.a href={cvFile} download className="accent-button" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                            Download CV
-                        </motion.a>
-                        <motion.a
-                            href={`${import.meta.env.BASE_URL}bare.html`}
-                            title="I hate React. Give me bare HTML."
-                            aria-label="I hate React. Give me bare HTML."
-                            className="ring-button"
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.98 }}
+                    <MotionDiv variants={item} className="mt-7 max-w-2xl border-t pt-5 sm:mt-8" style={{ borderColor: "var(--border)" }}>
+                        <button
+                            onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                            className="inline-flex items-center gap-2 text-sm text-[color:var(--accent)] underline-offset-4 hover:underline"
+                            aria-expanded={isDescriptionExpanded}
+                            aria-label={isDescriptionExpanded ? "Hide description" : "Show description"}
                         >
-                            Hate React? Bare HTML
-                        </motion.a>
-                    </div>
-                </motion.div>
+                            <span>More about me</span>
+                            {isDescriptionExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                        </button>
 
-                <motion.div style={{ y: imageY }} className="relative flex items-start justify-center pt-6 md:justify-end md:pt-20 lg:pr-4 xl:pr-8">
-                    <div className="absolute bottom-6 left-1/2 -z-10 h-44 w-44 -translate-x-1/2 rounded-full blur-3xl" style={{ background: "rgba(201,100,66,0.18)" }} />
-                    <div className="surface-card relative w-full max-w-[29rem] overflow-hidden rounded-[2.15rem] p-4 sm:p-5">
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.8rem] bg-[var(--surface-strong)]">
-                            <AnimatePresence mode="wait">
-                                <motion.img
-                                    key={profilePhotos[activePhotoIndex]}
-                                    src={profilePhotos[activePhotoIndex]}
-                                    alt={`${profile.name} portrait ${activePhotoIndex + 1}`}
-                                    className="h-full w-full object-cover"
-                                    initial={{ opacity: 0, scale: 1.04 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.98 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                />
-                            </AnimatePresence>
+                        <AnimatePresence initial={false}>
+                            {isDescriptionExpanded ? (
+                                <MotionP
+                                    className="mt-4 whitespace-pre-line border-l pl-4 text-sm leading-7 text-[color:var(--text-muted)]"
+                                    style={{ borderColor: "var(--border)" }}
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.22, ease: "easeOut" }}
+                                >
+                                    {profile.description}
+                                </MotionP>
+                            ) : null}
+                        </AnimatePresence>
+                    </MotionDiv>
+                </div>
 
-                            <button
-                                type="button"
-                                onClick={showPreviousPhoto}
-                                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-2 transition"
-                                style={{ background: "rgba(250,249,245,0.88)", color: "var(--text)", boxShadow: "0 10px 24px rgba(20,20,19,0.12)" }}
-                                aria-label="Show previous photo"
-                            >
-                                <ChevronLeft className="h-4 w-4" />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={showNextPhoto}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 transition"
-                                style={{ background: "rgba(250,249,245,0.88)", color: "var(--text)", boxShadow: "0 10px 24px rgba(20,20,19,0.12)" }}
-                                aria-label="Show next photo"
-                            >
-                                <ChevronRight className="h-4 w-4" />
-                            </button>
-                        </div>
-
-                        <div className="mt-4 flex items-center justify-center gap-2">
-                            {profilePhotos.map((photo, index) => (
-                                <button
-                                    key={photo}
-                                    type="button"
-                                    onClick={() => setActivePhotoIndex(index)}
-                                    className="h-2.5 rounded-full transition"
-                                    style={{
-                                        width: index === activePhotoIndex ? "1.5rem" : "0.625rem",
-                                        background: index === activePhotoIndex ? "var(--accent)" : "color-mix(in srgb, var(--text-soft) 45%, transparent)"
-                                    }}
-                                    aria-label={`Show photo ${index + 1}`}
-                                    aria-pressed={index === activePhotoIndex}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
-            </motion.div>
+                <MotionFigure variants={item} className="w-36 sm:w-40 md:w-full">
+                    <img
+                        src={profilePhoto}
+                        alt={`${profile.name} portrait`}
+                        className="aspect-[4/5] w-full object-cover"
+                        style={{ border: "1px solid var(--border)" }}
+                    />
+                </MotionFigure>
+            </MotionDiv>
         </header>
     );
 }

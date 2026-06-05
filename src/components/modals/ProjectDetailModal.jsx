@@ -1,67 +1,45 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 
 export function ProjectModal({ selectedProject, onClose }) {
     if (!selectedProject) return null;
 
     return (
-        <AnimatePresence>
-            <motion.div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={onClose}
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            onClick={onClose}
+        >
+            <div
+                className="max-h-[82vh] w-full max-w-2xl overflow-y-auto border bg-[var(--surface)] p-6 md:p-8"
+                style={{ borderColor: "var(--border)", color: "var(--text)", borderRadius: "4px" }}
+                onClick={(e) => e.stopPropagation()}
             >
-                <motion.div
-                    className="max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border p-6 md:p-8"
-                    style={{ background: "var(--surface)", borderColor: "var(--border)", color: "var(--text)", boxShadow: "var(--shadow)" }}
-                    initial={{ scale: 0.96, y: 20, opacity: 0 }}
-                    animate={{ scale: 1, y: 0, opacity: 1 }}
-                    exit={{ scale: 0.96, y: 20, opacity: 0 }}
-                    transition={{ type: "spring", damping: 24 }}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div className="mb-6 flex items-start justify-between">
+                    <div className="mb-6 flex items-start justify-between gap-6 border-b pb-5" style={{ borderColor: "var(--border)" }}>
                         <div>
-                            <h2 className="mb-1 text-2xl font-bold" style={{ color: "var(--text)" }}>
+                            <p className="meta">{selectedProject.year}</p>
+                            <h2 className="mt-1 text-2xl leading-8 text-[color:var(--text)]">
                                 {selectedProject.title}
                             </h2>
-                            <p style={{ color: "var(--accent)" }}>{selectedProject.year}</p>
                         </div>
-                        <button
-                            onClick={onClose}
-                            className="ring-button h-10 w-10 px-0"
-                            aria-label="Close project details"
-                        >
+                        <button onClick={onClose} className="plain-button h-9 w-9 shrink-0 px-0" aria-label="Close project details">
                             <X className="h-4 w-4" />
                         </button>
                     </div>
 
-                    <div className="space-y-6">
-                        <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    <div className="space-y-7">
+                        <p className="leading-8 text-[color:var(--text-muted)]">
                             {selectedProject.detailedDescription || selectedProject.description}
                         </p>
 
                         <div>
-                            <h3 className="mb-3 text-lg font-medium" style={{ color: "var(--text)" }}>
+                            <h3 className="meta uppercase tracking-[0.12em]">
                                 Technologies
                             </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {selectedProject.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="rounded-full px-3 py-1 text-sm"
-                                        style={{ background: "var(--surface-strong)", color: "var(--text-muted)", boxShadow: "0 0 0 1px var(--border)" }}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
+                            <p className="mt-2 text-sm leading-7 text-[color:var(--text-muted)]">
+                                {selectedProject.tags.join(" / ")}
+                            </p>
                         </div>
                     </div>
-                </motion.div>
-            </motion.div>
-        </AnimatePresence>
+            </div>
+        </div>
     );
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { validateEmail } from "../../utils";
 
 export function ContactForm() {
@@ -63,24 +62,17 @@ export function ContactForm() {
             setTimeout(() => {
                 setSubmitStatus(null);
             }, 5000);
-        } catch (error) {
+        } catch {
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const inputBaseStyle = {
-        background: "var(--bg)",
-        color: "var(--text)",
-        borderColor: "var(--border)",
-        boxShadow: "inset 0 0 0 1px transparent"
-    };
-
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 border-t pt-6" style={{ borderColor: "var(--border)" }}>
             <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium" style={{ color: "var(--text-muted)" }}>
+                <label htmlFor="name" className="meta mb-1 block">
                     Name
                 </label>
                 <input
@@ -89,14 +81,14 @@ export function ContactForm() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full rounded-[1.25rem] border px-4 py-3 outline-none"
-                    style={{ ...inputBaseStyle, borderColor: errors.name ? '#b53333' : 'var(--border)' }}
+                    className="field"
+                    style={{ borderColor: errors.name ? 'var(--danger)' : undefined }}
                 />
-                {errors.name && <p className="mt-1 text-sm" style={{ color: '#b53333' }}>{errors.name}</p>}
+                {errors.name && <p className="mt-1 text-sm" style={{ color: 'var(--danger)' }}>{errors.name}</p>}
             </div>
 
             <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium" style={{ color: "var(--text-muted)" }}>
+                <label htmlFor="email" className="meta mb-1 block">
                     Email
                 </label>
                 <input
@@ -105,14 +97,14 @@ export function ContactForm() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-[1.25rem] border px-4 py-3 outline-none"
-                    style={{ ...inputBaseStyle, borderColor: errors.email ? '#b53333' : 'var(--border)' }}
+                    className="field"
+                    style={{ borderColor: errors.email ? 'var(--danger)' : undefined }}
                 />
-                {errors.email && <p className="mt-1 text-sm" style={{ color: '#b53333' }}>{errors.email}</p>}
+                {errors.email && <p className="mt-1 text-sm" style={{ color: 'var(--danger)' }}>{errors.email}</p>}
             </div>
 
             <div>
-                <label htmlFor="message" className="mb-2 block text-sm font-medium" style={{ color: "var(--text-muted)" }}>
+                <label htmlFor="message" className="meta mb-1 block">
                     Message
                 </label>
                 <textarea
@@ -121,42 +113,36 @@ export function ContactForm() {
                     rows="4"
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full rounded-[1.25rem] border px-4 py-3 outline-none"
-                    style={{ ...inputBaseStyle, borderColor: errors.message ? '#b53333' : 'var(--border)', resize: 'vertical' }}
+                    className="field"
+                    style={{ borderColor: errors.message ? 'var(--danger)' : undefined, resize: 'vertical' }}
                 />
-                {errors.message && <p className="mt-1 text-sm" style={{ color: '#b53333' }}>{errors.message}</p>}
+                {errors.message && <p className="mt-1 text-sm" style={{ color: 'var(--danger)' }}>{errors.message}</p>}
             </div>
 
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="accent-button w-full disabled:cursor-not-allowed disabled:opacity-70"
+                className="accent-button disabled:cursor-not-allowed disabled:opacity-70"
             >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
 
             {submitStatus === 'success' && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="rounded-[1.25rem] border px-4 py-3"
-                    style={{ background: 'rgba(119,125,87,0.12)', borderColor: 'rgba(119,125,87,0.2)', color: '#5b6a46' }}
+                <div
+                    className="border-l pl-4 text-sm leading-7"
+                    style={{ borderColor: 'var(--success)', color: 'var(--success)' }}
                 >
-                    Message sent successfully! I'll get back to you soon.
-                </motion.div>
+                    Message sent successfully. I'll get back to you soon.
+                </div>
             )}
 
             {submitStatus === 'error' && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="rounded-[1.25rem] border px-4 py-3"
-                    style={{ background: 'rgba(181,51,51,0.08)', borderColor: 'rgba(181,51,51,0.16)', color: '#b53333' }}
+                <div
+                    className="border-l pl-4 text-sm leading-7"
+                    style={{ borderColor: 'var(--danger)', color: 'var(--danger)' }}
                 >
                     Something went wrong. Please try again later.
-                </motion.div>
+                </div>
             )}
         </form>
     );
