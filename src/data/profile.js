@@ -3,9 +3,7 @@ export const PROFILE = {
     tagline: "Undergraduate ECE Student at Seoul National University",
     email: "ryan0905@snu.ac.kr",
     github: "https://github.com/grenademeister",
-    linkedin: "https://www.linkedin.com/in/%ED%98%81%EA%B8%B0-%EA%B9%80-582a14340/",
-    summary:
-        "AI enthusiast · Generative Models · Medical Imaging",
+    linkedin: "https://www.linkedin.com/in/hyeokgi-kim-582a14340/",
     description:
         "Hi 👋 , I'm an Electrical & Computer Engineering student studying at Seoul National University.\n" +
         "I'm primarily interested in applied machine learning, generative AI, and MR imaging.\n" +

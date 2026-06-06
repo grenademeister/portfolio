@@ -8,6 +8,7 @@ import {
     createBlogComment,
     fetchBlogPost,
     fetchBlogPosts,
+    getBlogThumbnailUrl,
     normalizePostHtml,
     recordBlogPostView
 } from "./api";
@@ -84,27 +85,41 @@ function BlogShell({ theme, toggleTheme, children }) {
 }
 
 function BlogPostEntry({ post }) {
+    const thumbnailUrl = getBlogThumbnailUrl(post.thumbnail_id);
+
     return (
-        <article className="notebook-entry grid gap-2 md:grid-cols-[150px_1fr]">
-            <div className="meta">
-                <p>{formatDate(post.date)}</p>
-                <p>{formatCountLabel(post.view_count || 0, "view")}</p>
-            </div>
-            <div>
-                <a href={`#/${post.slug}`} className="group block">
-                    <h2 className="font-editorial text-2xl leading-8 text-[color:var(--text)] underline-offset-4 group-hover:underline">
+        <article className="notebook-entry blog-post-entry">
+            <a href={`#/${post.slug}`} className="blog-post-link group">
+                <div className="blog-post-thumbnail" aria-hidden={!thumbnailUrl}>
+                    {thumbnailUrl ? (
+                        <img
+                            src={thumbnailUrl}
+                            alt=""
+                            loading="lazy"
+                            className="h-full w-full object-cover"
+                        />
+                    ) : (
+                        <span>{post.title.slice(0, 1)}</span>
+                    )}
+                </div>
+                <div className="min-w-0">
+                    <div className="meta flex flex-wrap gap-x-3 gap-y-1">
+                        <span>{formatDate(post.date)}</span>
+                        <span>{formatCountLabel(post.view_count || 0, "view")}</span>
+                    </div>
+                    <h2 className="mt-2 font-editorial text-2xl leading-8 text-[color:var(--text)] underline-offset-4 group-hover:underline">
                         {post.title}
                     </h2>
-                    <p className="mt-2 text-base leading-7 text-[color:var(--text-muted)]">
+                    <p className="blog-post-excerpt mt-2 text-base leading-7 text-[color:var(--text-muted)]">
                         {post.summary || "No summary provided yet."}
                     </p>
-                </a>
-                {post.tags.length ? (
-                    <p className="mt-3 text-xs leading-6 text-[color:var(--text-soft)]">
-                        {post.tags.map((tag) => `#${tag}`).join(" / ")}
-                    </p>
-                ) : null}
-            </div>
+                    {post.tags.length ? (
+                        <p className="mt-3 text-xs leading-6 text-[color:var(--text-soft)]">
+                            {post.tags.map((tag) => `#${tag}`).join(" / ")}
+                        </p>
+                    ) : null}
+                </div>
+            </a>
         </article>
     );
 }

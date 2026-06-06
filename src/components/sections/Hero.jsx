@@ -38,10 +38,6 @@ export function Hero({ profile }) {
                     <MotionP variants={item} className="mt-4 text-lg leading-7 text-[color:var(--text)] sm:text-xl md:text-2xl">
                         {profile.tagline}
                     </MotionP>
-                    <MotionP variants={item} className="mt-4 max-w-2xl whitespace-pre-line text-base leading-7 text-[color:var(--text-muted)] sm:text-lg sm:leading-8">
-                        {profile.summary}
-                    </MotionP>
-
                     <MotionDiv variants={item} className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm sm:mt-7">
                         {links.map((link) => (
                             <a

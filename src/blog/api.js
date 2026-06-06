@@ -10,6 +10,21 @@ function toAbsoluteBlogUrl(path) {
     return `${normalizedBase}${path}`;
 }
 
+function encodePathSegments(path) {
+    return path
+        .split("/")
+        .map((segment) => encodeURIComponent(segment))
+        .join("/");
+}
+
+export function getBlogThumbnailUrl(thumbnailId) {
+    if (!thumbnailId) {
+        return "";
+    }
+
+    return toAbsoluteBlogUrl(`/thumbnail/${encodePathSegments(thumbnailId)}`);
+}
+
 export function normalizePostHtml(html) {
     if (!html || typeof document === "undefined") {
         return html;
