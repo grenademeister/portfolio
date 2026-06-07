@@ -34,14 +34,13 @@ export function normalizePostHtml(html) {
     template.innerHTML = html;
 
     template.content.querySelectorAll("img[src], source[src]").forEach((node) => {
-        const attribute = node.tagName === "SOURCE" ? "src" : "src";
-        const value = node.getAttribute(attribute);
+        const value = node.getAttribute("src");
 
         if (!value || !value.startsWith("/media/")) {
             return;
         }
 
-        node.setAttribute(attribute, toAbsoluteBlogUrl(value));
+        node.setAttribute("src", toAbsoluteBlogUrl(value));
     });
 
     template.content.querySelectorAll("source[srcset], img[srcset]").forEach((node) => {

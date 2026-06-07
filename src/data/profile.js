@@ -15,15 +15,13 @@ export const EDUCATION = [
         institution: "Seoul National University",
         degree: "Electrical & Computer Engineering",
         period: "2024 - Present",
-        gpa: "4.17 / 4.3",
-        icon: "BookOpen"
+        gpa: "4.17 / 4.3"
     },
     {
         institution: "Gyeonggi Science High School for the Gifted",
         degree: "Physics Track",
         period: "Graduated 2023",
-        gpa: "4.27 / 4.3",
-        icon: "GraduationCap"
+        gpa: "4.27 / 4.3"
     }
 ];
 
@@ -184,21 +182,18 @@ export const EXPERIENCE = [
         role: "Research Intern",
         org: "LIST, Seoul National University",
         period: "May 2025 ~ February 2026",
-        description: "Conducted research on longitudinal MRI reconstruction in the Laboratory for Imaging science & technology(LIST).",
-        icon: "Award",
+        description: "Conducted research on longitudinal MRI reconstruction in the Laboratory for Imaging science & technology(LIST)."
     },
     {
         role: "Student Member",
         org: "DEEPEST(Research Group)",
         period: "Since 2025",
-        description: "Active member of a student-led AI research society DEEPEST, focused on deep learning and its applications.",
-        icon: "BookOpen",
+        description: "Active member of a student-led AI research society DEEPEST, focused on deep learning and its applications."
     },
     {
         role: "STEM National Scholarship",
         org: "Korea Student Aid Foundation",
         period: "Since 2024",
-        description: "Recipient of the National Scholarship for Outstanding STEM Students, awarded based on academic excellence and research potential.",
-        icon: "GraduationCap",
+        description: "Recipient of the National Scholarship for Outstanding STEM Students, awarded based on academic excellence and research potential."
     },
 ];

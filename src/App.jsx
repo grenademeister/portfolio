@@ -64,7 +64,7 @@ export default function PortfolioPage() {
                 onToggleExpand={() => setShowAllProjects((prev) => !prev)}
                 onProjectSelect={setSelectedProject}
             />
-            <ContactSection />
+            <ContactSection email={PROFILE.email} />
             <Footer profileName={PROFILE.name} />
             <ProjectModal selectedProject={selectedProject} onClose={() => setSelectedProject(null)} />
         </div>
