@@ -3,6 +3,19 @@ const BLOG_API_URL = import.meta.env.VITE_BLOG_API_URL
 
 export { BLOG_API_URL };
 
+async function parseJsonResponse(response, { allowNotFound = false } = {}) {
+    if (allowNotFound && response.status === 404) {
+        return null;
+    }
+
+    if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.detail || `Request failed with status ${response.status}`);
+    }
+
+    return response.json();
+}
+
 function toAbsoluteBlogUrl(path) {
     const normalizedBase = BLOG_API_URL.endsWith("/")
         ? BLOG_API_URL.slice(0, -1)
@@ -81,27 +94,13 @@ export async function fetchBlogPosts(signal, query = "") {
         ? `${BLOG_API_URL}/posts/search?q=${encodeURIComponent(trimmedQuery)}`
         : `${BLOG_API_URL}/posts`;
     const response = await fetch(endpoint, { signal });
-
-    if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = await parseJsonResponse(response);
     return Array.isArray(data) ? data : [];
 }
 
 export async function fetchBlogPost(slug, signal) {
     const response = await fetch(`${BLOG_API_URL}/posts/${slug}`, { signal });
-
-    if (response.status === 404) {
-        return null;
-    }
-
-    if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    return response.json();
+    return parseJsonResponse(response, { allowNotFound: true });
 }
 
 export async function recordBlogPostView(slug, signal) {
@@ -110,15 +109,7 @@ export async function recordBlogPostView(slug, signal) {
         signal
     });
 
-    if (response.status === 404) {
-        return null;
-    }
-
-    if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    return response.json();
+    return parseJsonResponse(response, { allowNotFound: true });
 }
 
 export async function createBlogComment(slug, payload) {
@@ -130,14 +121,5 @@ export async function createBlogComment(slug, payload) {
         body: JSON.stringify(payload)
     });
 
-    if (response.status === 404) {
-        return null;
-    }
-
-    if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        throw new Error(data?.detail || `Request failed with status ${response.status}`);
-    }
-
-    return response.json();
+    return parseJsonResponse(response, { allowNotFound: true });
 }
