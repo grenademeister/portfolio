@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import renderMathInElement from "katex/contrib/auto-render";
+import "katex/dist/katex.min.css";
 import { Navigation } from "../components/navigation/Navigation";
 import { Footer } from "../components/layout/Footer";
 import { PROFILE } from "../data/profile";
@@ -123,6 +125,34 @@ function BlogPostEntry({ post }) {
         </article>
     );
 }
+
+const BlogPostContent = memo(function BlogPostContent({ html }) {
+    const postContainer = useRef(null);
+
+    useEffect(() => {
+        if (!postContainer.current || !html) {
+            return;
+        }
+
+        postContainer.current.querySelectorAll(".math").forEach((mathElement) => {
+            renderMathInElement(mathElement, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false }
+                ]
+            });
+        });
+    }, [html]);
+
+    return (
+        <div
+            ref={postContainer}
+            className="mt-10 text-[color:var(--text-muted)] [&_a]:text-[color:var(--accent)] [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:mt-6 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:italic [&_h1]:mt-12 [&_h1]:font-editorial [&_h1]:text-3xl [&_h1]:font-semibold [&_h2]:mt-10 [&_h2]:font-editorial [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:font-editorial [&_h3]:text-xl [&_h3]:font-semibold [&_img]:mt-8 [&_img]:w-full [&_img]:border [&_li]:mt-2 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6"
+            style={{ ["--tw-prose-quote-borders"]: "var(--border)", ["--tw-prose-img-borders"]: "var(--border)" }}
+            dangerouslySetInnerHTML={{ __html: html }}
+        />
+    );
+});
 
 function BlogIndex() {
     const [posts, setPosts] = useState([]);
@@ -382,11 +412,7 @@ function BlogPostPage({ slug }) {
                             </h1>
                         </header>
 
-                        <div
-                            className="mt-10 text-[color:var(--text-muted)] [&_a]:text-[color:var(--accent)] [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:mt-6 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:italic [&_h1]:mt-12 [&_h1]:font-editorial [&_h1]:text-3xl [&_h1]:font-semibold [&_h2]:mt-10 [&_h2]:font-editorial [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:mt-8 [&_h3]:font-editorial [&_h3]:text-xl [&_h3]:font-semibold [&_img]:mt-8 [&_img]:w-full [&_img]:border [&_li]:mt-2 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-5 [&_p]:leading-8 [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6"
-                            style={{ ["--tw-prose-quote-borders"]: "var(--border)", ["--tw-prose-img-borders"]: "var(--border)" }}
-                            dangerouslySetInnerHTML={{ __html: normalizedHtml }}
-                        />
+                        <BlogPostContent html={normalizedHtml} />
 
                         <section className="mt-16 border-t pt-10" style={{ borderColor: "var(--border)" }}>
                             <div className="flex flex-wrap items-baseline justify-between gap-3">
