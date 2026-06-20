@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "katex/dist/katex.min.css";
 import { useTheme } from "../hooks";
 import { normalizePostHtml } from "./api";
 import {

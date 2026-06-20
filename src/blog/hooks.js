@@ -89,18 +89,17 @@ export function useBlogPost(slug) {
                 if (viewedPostKeys.has(viewKey)) return;
                 viewedPostKeys.add(viewKey);
 
-                try {
-                    const viewData = await recordBlogPostView(slug, controller.signal);
+                recordBlogPostView(slug, controller.signal).then((viewData) => {
                     if (viewData?.view_count != null) {
                         setPost((currentPost) => (
                             currentPost ? { ...currentPost, view_count: viewData.view_count } : currentPost
                         ));
                     }
-                } catch (error) {
+                }).catch((error) => {
                     if (!isAbortError(error)) {
                         console.error("Failed to record blog post view", error);
                     }
-                }
+                });
             } catch (error) {
                 if (isAbortError(error)) return;
                 console.error("Failed to load blog post", error);

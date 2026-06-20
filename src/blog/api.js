@@ -46,14 +46,24 @@ export function normalizePostHtml(html) {
     const template = document.createElement("template");
     template.innerHTML = html;
 
-    template.content.querySelectorAll("img[src], source[src]").forEach((node) => {
-        const value = node.getAttribute("src");
-
-        if (!value || !value.startsWith("/media/")) {
-            return;
+    template.content.querySelectorAll("img").forEach((node) => {
+        if (!node.loading) {
+            node.setAttribute("loading", "lazy");
         }
 
-        node.setAttribute("src", toAbsoluteBlogUrl(value));
+        const value = node.getAttribute("src");
+
+        if (value && value.startsWith("/media/")) {
+            node.setAttribute("src", toAbsoluteBlogUrl(value));
+        }
+    });
+
+    template.content.querySelectorAll("source[src]").forEach((node) => {
+        const value = node.getAttribute("src");
+
+        if (value && value.startsWith("/media/")) {
+            node.setAttribute("src", toAbsoluteBlogUrl(value));
+        }
     });
 
     template.content.querySelectorAll("source[srcset], img[srcset]").forEach((node) => {

@@ -1,6 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Github, Mail, Linkedin, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { Github, Mail, Linkedin } from "lucide-react";
 import cvFile from "/cv.pdf";
 import profilePhoto from "/pic1-square.jpg";
 
@@ -10,8 +9,6 @@ const MotionP = motion.p;
 const MotionFigure = motion.figure;
 
 export function Hero({ profile }) {
-    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-
     const links = [
         { href: profile.github, label: "GitHub", icon: <Github className="h-4 w-4" />, external: true },
         { href: profile.linkedin, label: "LinkedIn", icon: <Linkedin className="h-4 w-4" />, external: true },
@@ -56,32 +53,9 @@ export function Hero({ profile }) {
                         <a href={`${import.meta.env.BASE_URL}bare.html`} className="text-link">Bare HTML</a>
                     </MotionDiv>
 
-                    <MotionDiv variants={item} className="mt-7 max-w-2xl border-t pt-5 sm:mt-8" style={{ borderColor: "var(--border)" }}>
-                        <button
-                            onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                            className="inline-flex items-center gap-2 text-sm text-[color:var(--accent)] underline-offset-4 hover:underline"
-                            aria-expanded={isDescriptionExpanded}
-                            aria-label={isDescriptionExpanded ? "Hide description" : "Show description"}
-                        >
-                            <span>More about me</span>
-                            {isDescriptionExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                            {isDescriptionExpanded ? (
-                                <MotionP
-                                    className="mt-4 whitespace-pre-line border-l pl-4 text-sm leading-7 text-[color:var(--text-muted)]"
-                                    style={{ borderColor: "var(--border)" }}
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: "auto" }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    transition={{ duration: 0.22, ease: "easeOut" }}
-                                >
-                                    {profile.description}
-                                </MotionP>
-                            ) : null}
-                        </AnimatePresence>
-                    </MotionDiv>
+                    <MotionP variants={item} className="mt-7 max-w-2xl whitespace-pre-line border-t pt-5 text-sm leading-7 text-[color:var(--text-muted)] sm:mt-8" style={{ borderColor: "var(--border)" }}>
+                        {profile.description}
+                    </MotionP>
                 </div>
 
                 <MotionFigure variants={item} className="w-36 sm:w-40 md:w-full">

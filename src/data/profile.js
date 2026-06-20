@@ -27,19 +27,19 @@ export const EDUCATION = [
 
 export const SKILLS = {
     "AI Research": [
-        { name: "PyTorch", icon: "Zap" },
-        { name: "TensorFlow", icon: "Brain" },
-        { name: "HuggingFace Transformers", icon: "Bot" },
-        { name: "OpenAI Gym", icon: "Network" },
-        { name: "scikit-learn", icon: "Database" },
-        { name: "MATLAB", icon: "Cpu" }
+        { name: "PyTorch" },
+        { name: "TensorFlow" },
+        { name: "HuggingFace Transformers" },
+        { name: "OpenAI Gym" },
+        { name: "scikit-learn" },
+        { name: "MATLAB" }
     ],
     "Software Engineering": [
-        { name: "Python", icon: "FileCode" },
-        { name: "C/C++", icon: "Code2" },
-        { name: "JavaScript (React)", icon: "Laptop2" },
-        { name: "Git", icon: "GitBranch" },
-        { name: "Linux", icon: "Terminal" },
+        { name: "Python" },
+        { name: "C/C++" },
+        { name: "JavaScript (React)" },
+        { name: "Git" },
+        { name: "Linux" }
     ]
 };
 

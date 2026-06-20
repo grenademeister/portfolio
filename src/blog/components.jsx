@@ -65,7 +65,7 @@ export function PostList({ posts, query, status }) {
     );
 }
 
-function PostListEntry({ post }) {
+const PostListEntry = memo(function PostListEntry({ post }) {
     const thumbnailUrl = getBlogThumbnailUrl(post.thumbnail_id);
 
     return (
@@ -98,7 +98,7 @@ function PostListEntry({ post }) {
             </a>
         </article>
     );
-}
+});
 
 export const PostContent = memo(function PostContent({ html }) {
     const postContainer = useRef(null);
