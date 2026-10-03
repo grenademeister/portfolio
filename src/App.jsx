@@ -47,6 +47,13 @@ export default function PortfolioPage() {
                 activeSection={activeSection}
                 secondaryLinks={[{ href: `${import.meta.env.BASE_URL}blog/`, label: "Blog" }]}
             />
+            <aside className="page-container py-5" aria-label="Portfolio migration notice">
+                <p>
+                    This portfolio has moved. Visit{" "}
+                    <a href="https://grenademeister.qzz.io" className="text-link">grenademeister.qzz.io</a>{" "}
+                    for the latest updates.
+                </p>
+            </aside>
             <Hero profile={PROFILE} />
             <EducationSection education={EDUCATION} />
             <ExperienceSection experience={EXPERIENCE} />
